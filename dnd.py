@@ -1,4 +1,3 @@
-# hello, does this test work? Yes
 import sys
 import random
 import math
@@ -174,12 +173,6 @@ class Character:
         self.name= nname+" "+nnname
 
         self.stats={"str":10,"dex":10,"con":10,"int":10,"wis":10,"cha":10}
-##        self.str=10
-##        self.dex=10
-##        self.con=10
-##        self.int=10
-##        self.wis=10
-##        self.cha=10
         if attributeGen=="3d6Fixed":
             raise "3d6Fixed is not defined"
         elif attributeGen=="4d6DropOne":
@@ -246,6 +239,7 @@ class Character:
         i=1
         while i<level:
             This.randLevelUp()
+            i=i+1
         return This
 
 def loadUp(text):
