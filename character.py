@@ -6,12 +6,40 @@ import os
 from basics import *
 from classStuff import *
 from raceStuff import *
+import spells
 
 class Character:
     def __init__(self):
         self.classes=[]
+        self.subclasses=["none"]
         self.stats={}
+        self.properties={}
+        self.saveString=''
+        self.proficiency=2
+        self.spells={}
         pass
+    
+    def addProperty(self,nname,ttext='',vvalue=0,):
+        bbreak=0
+        prev=-1
+        for i in self.properties:
+            if i==nname:
+                prev=self.properties[nname].value
+                if prev>value:
+                    bbreak=1
+        if not bbreak:
+            self.properties[nname]=Property(nname,ttext,vvalue)
+    def addProperty(self,property):
+        bbreak=0
+        prev=-1
+        for i in self.properties:
+            if i==property.name:
+                prev=self.properties[i].value
+                if prev>property.value:
+                    bbreak=1
+        if not bbreak:
+            self.properties[property.name]=property
+            
     def firstLevel(self,attributeGen="StandardArray"):
         self.level=1
         gender=random.choice(["Male","Female"])
@@ -45,10 +73,11 @@ class Character:
             self.race.abilityMod(self)
 
         self.hp=self.classes[0].hp*2-2+getMod(self.stats["con"])
-        ##self.features=self.classes[0].featureGain(1)
+        self=self.classes[0].featureGain(1,self)
+        
     def randLevelUp(self):
         self.level+=1
-        self.hp+=self.classes[0].hp+getMod(self.stats['con'])
+        self.hp+=self.classes[0].hp
         if self.level%4==0:
             j=0
             k=''
@@ -57,21 +86,34 @@ class Character:
                     k=i
                     j=self.stats[i]
             self.stats[k]+=2
-            if k == "con":
+            if k=='con':
                 self.hp+=self.level
+        if self.level in [5,9,13,17]:
+            self.proficiency+=1
         random.choice(self.classes).progress(self) ###may need self= this
             
                 
     def classSpread(self):
         if len(self.classes)==1:
-            return self.classes[0].name
+            if self.subclasses[0]=='none':
+                return self.classes[0].name
+            else:
+                return self.subclasses[0] ##Multiclassing work needed
         else:
             raise("class Spreader not implemented")
+
     def printOut(self):
         print("You are "+self.name+", a level "+str(self.level)+" "+self.race.name+" "+self.classSpread()+".\n")
         
     
-        
+    def refactor(self,cclass):
+        storage=self.stats
+        hpstore=self.hp
+        for i in range(1,self.level+1):
+            self=self.classes[0].featureGain(i,self)
+            self.stats=storage
+            self.hp=hpstore
+
     def generate():
         This=Character()
         repeat=True
@@ -79,21 +121,21 @@ class Character:
             repeat=False
             q=input("What level character would you like to create?\n")
             print("\n\n")
-            if int(q) not in range(1,21):
+            if int(q) not in range(1,21): ##int(q) throws error for non-int q
                 if q in ['b','B','Back','back','q','Q','quit','Quit']:
                     return -1
                 else:
                     print("Sorry, I didn't understand that.  Try entering a number from 1 to 20, or (b)ack.\n")
                     repeat=True
         repeat=True
-        while repeat:
-            repeat=False
-            s=input("Would you like to set any other parameters? (y/n)\n")
-            print("\n\n")
-            if s in ['y','Y','yes','Yes','s','S','set','Set']:
-                print("not yet implemented\n")
-            elif s not in ['n','N','no','No','NO','r','R','roll','Roll','','\n']:
-                repeat=True
+##        while repeat:
+##            repeat=False
+##            s=input("Would you like to set any other parameters? (y/n)\n")
+##            print("\n\n")
+##            if s in ['y','Y','yes','Yes','s','S','set','Set']:
+##                print("not yet implemented\n")
+##            elif s not in ['n','N','no','No','NO','r','R','roll','Roll','','\n']:
+##                repeat=True
             
         level=int(q)
         This.firstLevel()
@@ -101,7 +143,38 @@ class Character:
         while i<level:
             This.randLevelUp()
             i=i+1
+        This.refactor(This.classes[0])
         return This
+    
+    def addSpell(self,sspell,nnote,vvalue):
+        conflict=False
+        key=-999
+        
+        for i in self.spells:
+            if i==sspell.name:
+                conflict=True
+                key=i
+        if not conflict:
+            self.spells[sspell.name]=spells.miniSpell(sspell,sspell.name,nnote,vvalue)
+        else:
+            if nnote in self.spells[key].note:
+                pass
+            elif vvalue<0 and self.spells[key].value>=0:
+                pass
+            elif vvalue==0 and self.spells[key].value>0:
+                pass
+            elif vvalue>0 and self.spells[key].value<=0:
+                self.spells[sspell.name]=spells.miniSpell(sspell,sspell.name,nnote,vvalue)
+            elif vvalue==0 and self.spells[key].value<0:
+                self.spells[sspell.name]=spells.miniSpell(sspell,sspell.name,nnote,vvalue)
+            elif vvalue>0:
+                newnote=self.spells[key].note+" and "+nnote
+                self.spells[sspell.name]=spells.miniSpell(sspell,sspell.name,newnote,vvalue)
+            elif vvalue<0:
+                newnote=self.spells[key].note+" or "+nnote
+                self.spells[sspell.name]=spells.miniSpell(sspell,sspell.name,newnote,vvalue)
+        
+                
 
 
         

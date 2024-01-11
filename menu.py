@@ -7,6 +7,7 @@ from basics import *
 import classStuff
 from classStuff import classList
 from character import *
+import spells
 
 def loadUp(text):
     def nextWord():
@@ -21,7 +22,10 @@ def loadUp(text):
                 text=text[1:]
     curfile=Character()
     curfile.name=nextWord()
-    curfile.classes=classStuff.classLookup(nextWord())
+    t=nextWord()
+    curfile.classes=classStuff.classLookup(t)
+    if t!=curfile.classes[0].name:
+        curfile.subclasses=[t]
     curfile.level=int(nextWord())
     curfile.race=raceLookup(nextWord())
     curfile.stats["str"]=int(nextWord())
@@ -30,9 +34,50 @@ def loadUp(text):
     curfile.stats["int"]=int(nextWord())
     curfile.stats["wis"]=int(nextWord())
     curfile.stats["cha"]=int(nextWord())
+    curfile.saveString=nextWord()
+    for i in range(1,curfile.level+1):
+        curfile=curfile.classes[0].featureGain(i,curfile)
     curfile.hp=curfile.classes[0].hp*(1+curfile.level)-2+curfile.level*getMod(curfile.stats["con"])
+    for i in curfile.classes:
+        curfile.refactor(i)
     return curfile
 
+def save(curfile):
+    file= open(curfile.name+'.txt', 'w') ##will overwrite existing file with same name if present until check implemented!
+    file.write(curfile.name+"@"+curfile.classSpread()+"@"+str(curfile.level)+"@"+curfile.race.name+"@"+str(curfile.stats["str"])+"@"+str(curfile.stats["dex"])+"@"+str(curfile.stats["con"])+"@"+str(curfile.stats["int"])+"@"+str(curfile.stats["wis"])+"@"+str(curfile.stats["cha"])+"@"+curfile.saveString+"@@")
+    file.close()
+    print("\n\nfile saved as "+curfile.name+'.txt\n')
+    
+def detMenu(curfile):
+    sub=True
+    while sub:
+        q=input("Would you like to view Class (F)eatures,(S)pells,(I)tems, or go (B)ack?\n")
+        print("\n\n")
+        if q in ['f','F','Features','features','c','C','class','Class']:
+            for k in curfile.properties:
+                print(curfile.properties[k].text+"\n\n")
+        if q in ['s','S','spells','Spells']:
+            levelSort=[[],[],[],[],[],[],[],[],[],[]]
+            for k in curfile.spells:
+                levelSort[curfile.spells[k].spell.level].append(k)
+            iter=0
+            while iter<10:
+                if len(levelSort[iter])>0:
+                    print("level "+str(iter)+":")
+                for i in levelSort[iter]:
+                    if curfile.spells[i].note != '':
+                        nnote='('+curfile.spells[i].note+')'
+                    else:
+                        nnote=''
+                    print(curfile.spells[i].name+nnote+":")
+                    print(curfile.spells[i].spell.text)
+                iter+=1
+                    
+        if q in ['i','I','items','Items']:
+            pass
+        if q in ['b','B','back','Back']:
+            sub=False
+            
 def subMenu(curfile):
     sub=True
     while sub:
@@ -49,12 +94,11 @@ def subMenu(curfile):
             print("Int: "+str(curfile.stats["int"])+"\n")
             print("Wis: "+str(curfile.stats["wis"])+"\n")
             print("Cha: "+str(curfile.stats["cha"])+"\n")
-            input("Enter any prompt to continue")
+            detMenu(curfile)
+                    
+                    
         if q in ['s',"S",'save',"Save",'y','Y','yes','Yes']:
-            file= open(curfile.name+'.txt', 'w') ##will overwrite existing file with same name if present until check implemented!
-            file.write(curfile.name+"@"+curfile.classSpread()+"@"+str(curfile.level)+"@"+curfile.race.name+"@"+str(curfile.stats["str"])+"@"+str(curfile.stats["dex"])+"@"+str(curfile.stats["con"])+"@"+str(curfile.stats["int"])+"@"+str(curfile.stats["wis"])+"@"+str(curfile.stats["cha"])+"@@")
-            file.close()
-            print("\n\nfile saved as "+curfile.name+'.txt\n')
+            save(curfile)
         if q in ['q','Q','quit','Quit','exit','Exit','e','E','x','X','n','N','no','No']:
             input("\nHave a good day :)\n")
             sys.exit(0)
