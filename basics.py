@@ -11,8 +11,7 @@ def getMod(stat):
     return int((stat-10)/2)
 
 class Property:
-    def __init__(self,nname,kkind,vvalue=0,llevel=1):
+    def __init__(self,nname,ttext,vvalue=0):
         self.name=nname
-        self.kind=kkind
+        self.text=ttext
         self.value=vvalue
-        self.llevel=1
