@@ -36,6 +36,21 @@ class Class:
     def progress(self,char):
         self.featureGain(char.level,char,char.subclasses[0])
         char.refactor(self)
+
+    def ArtificerGain(self,level,character,subclasses=['none']):
+        if level==1:
+            mTinker=Property("Magical Tinkering",'''You can touch a Tiny nonmagical object with thieves' or artisan's tools as an action to give it one of the following properties, or end the effect:
+
+    - The object sheds bright light in a 5-foot radius and dim light for an additional 5 feet.
+    - Whenever tapped by a creature, the object emits a recorded message that can be heard up to 10 feet away. You utter the message when you bestow this property on the object, and the recording can be no more than 6 seconds long.
+    - The object continuously emits your choice of an odor or a nonverbal sound (wind, waves, chirping, or the like). The chosen phenomenon is perceivable up to 10 feet away.
+    - A static visual effect appears on one of the object's surfaces. This effect can be a picture, up to 25 words of text, lines and shapes, or a mixture of these elements, as you like.
+
+Max 1 effect/object. Max '''+str(max(getMod(character.stats['int']),1))+" object at once before new ones replace the oldest.")
+            guns=Property("Firearm Proficiency","You are proficient with firearms")
+            character.addProperty(guns)
+            character.addProperty(mTinker)
+            Spells.makeSpellcaster(character,Artificer):
     def BarbarianGain(cclass,level,character,subclasses=['none']):
         if level==1:
             rage=Property("Rage",'''In battle, you fight with primal ferocity. On your turn, you can enter a rage as a bonus action. While raging, you gain the following benefits if you aren't wearing heavy armor:
@@ -144,31 +159,23 @@ When you sense a spell, you learn which school of magic it belongs to. You can u
                 
 
   
-class Class:
-    def __init__(self, name, hit_die):
-        self.name = name
-        self.hit_die = hit_die
-        self.firstNameList = {}
-        self.lastNameList = {}
 
+classList=[]
 
-classList = []
-
-Wizard = Class("Wizard", "d6")
-Fighter = Class("Fighter", "d10")
-Barbarian = Class("Barbarian", "d12")
-Monk = Class("Monk", "d8")
-Rogue = Class("Rogue", "d8")
-Druid = Class("Druid", "d8")
-Ranger = Class("Ranger", "d10")
-Bard = Class("Bard", "d8")
-Cleric = Class("Cleric", "d8")
-Paladin = Class("Paladin", "d10")
-Sorcerer = Class("Sorcerer", "d6")
-Warlock = Class("Warlock", "d8")
-Artificer = Class("Artificer", "d8")
-Mystic = Class("Mystic", "d8")
-
+Wizard=Class("Wizard","d6")
+Fighter=Class("Fighter","d10")
+Barbarian=Class("Barbarian","d12")
+Monk=Class("Monk","d8")
+Rogue=Class("Rogue","d8")
+Druid=Class("Druid","d8")
+Ranger=Class("Ranger","d10")
+Bard=Class("Bard","d8")
+Cleric=Class("Cleric","d8")
+Paladin=Class("Paladin","d10")
+Sorcerer=Class("Sorcerer","d6")
+Warlock=Class("Warlock","d8")
+Artificer=Class("Artificer","d8")
+Mystic=Class("Mystic","d8")
 classList.append(Artificer)
 classList.append(Barbarian)
 classList.append(Bard)
@@ -176,14 +183,13 @@ classList.append(Fighter)
 classList.append(Druid)
 classList.append(Cleric)
 classList.append(Ranger)
-classList.append(Rogue)
-classList.append(Monk)
-classList.append(Paladin)
-classList.append(Mystic)
-classList.append(Sorcerer)
-classList.append(Wizard)
-classList.append(Warlock)
-
+##classList.append(Rogue)
+##classList.append(Monk)
+##classList.append(Paladin)
+##classList.append(Mystic)
+##classList.append(Sorcerer)
+##classList.append(Wizard)
+##classList.append(Warlock)
 
 Artificer.firstNameList={"Male" : ["Alec","Oil","Alkali","Salt","Sparky","Malachi","Ham","Crovak","Arturo","Arthur","Fash","Beebo","Clint","Colton","Iniquious","Able","Wort"], "Female" : ["Sparky","Fizzle","Estrella","Star","Tink","Lisa","Elizabeth","Mildred","Esther","Ether","Gravity","Orba","Acid","Peridot","Effervescence","Amber","Quima","Serena","Xiphura","Gemma"]}
 Artificer.lastNameList=["Tinkerman","Tralysis","Barr","Vintner","Gnomekin","Mason","Freeman","Depth","Crafthome","Gemwise","Workready"]
@@ -230,10 +236,10 @@ Warlock.firstNameList = {"Male": ["Cursed", "Hex", "Infernal", "Eldritch", "Drea
                       "Female": ["Cursed", "Hex", "Infernal", "Eldritch", "Dread", "Abyssal", "Fiendish", "Dark", "Shadow", "Spectral", "Demonic", "Otherworldly", "Malevolent", "Sinister", "Coven", "Mystic", "Occult", "Warlock", "Vile", "Nether"]}
 Warlock.lastNameList = ["the Warlock", "Hexweaver", "Cursed", "Darkbinder", "Infernal", "Eldritch", "Dread", "Abyssal", "Fiendish", "Shadow", "Spectral", "Demonic", "Malevolent", "Sinister", "Nether", "Coven", "Mystic", "Occult", "Doombringer", "Vile"]
 
-
-
+# end unchecked 'names'
 
 Barbarian.featureGain=Barbarian.BarbarianGain
+Artificer.featureGain=Artificer.ArtificerGain
 
 def classLookup(nname):
     if '/' not in nname:
