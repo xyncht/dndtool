@@ -206,6 +206,38 @@ Cleric.lastNameList=["the Merciful","the Mild","the Merciless","the Flambeaux","
 Ranger.firstNameList={"Male":["Sabre","Oscar","Pebble","Gultch","Red","John","Vaegram","Cordell","James","Ezekial","Joseph","Yussef","Arman","Alder","Vengeance","Dogwood","Ivan","Ariel"],"Female":["Raven","Crow","Owl","Littleflower","Whiteflower","Rose","Thorn","Saffron","Rose-of-Sharron","Esmerelda","Pear","Effervescence","Moonlight","Xera","Fara","Fidelma","Faithless","Hope","Dawn","Twilight","Wind-on-Stone","Grace","Liena"]}
 Ranger.lastNameList=["the Wild","Windrunner","Blade","Zephyr","of the Forest","Ranger","Strider","the Mountain","the Fierce","the Quick","Eagle-eye","Bear's-Strength","Bearslayer","Dragonslayer","the Proud","the Watcher","Returned","the Survivor","Bowmaker","Fletcher","Flint","Knapper","Smith","Doe"]
 
+# ... (uncecked names)
+
+Rogue.firstNameList = {"Male": ["Shadow", "Silent", "Swift", "Dagger", "Whisper", "Rat", "Sly", "Deceit", "Cunning", "Mystery", "Fox", "Rogue", "Shade", "Noctis", "Garrett", "Viper", "Slade"],
+                     "Female": ["Shadow", "Silent", "Swift", "Dagger", "Whisper", "Rat", "Sly", "Deceit", "Cunning", "Mystery", "Fox", "Rogue", "Shade", "Noctis", "Garrett", "Viper", "Slade"]}
+Rogue.lastNameList = ["the Shadow", "Silentfoot", "Swiftblade", "Daggerfall", "Whisperwind", "Blackcloak", "Greythief", "Deceitful", "Cunning", "Mysterio", "Foxworthy", "Nightshade", "Nocturnal", "Darkblade", "Viperscale", "Silade"]
+
+Monk.firstNameList = {"Male": ["Zen", "Harmony", "Tranquil", "Qi", "Meditation", "Calm", "Wisdom", "Flow", "Balance", "Enlightenment", "Peace", "Serenity", "Brother", "Sister", "Silent", "Still", "Master", "Student"],
+                    "Female": ["Zen", "Harmony", "Tranquil", "Qi", "Meditation", "Calm", "Wisdom", "Flow", "Balance", "Enlightenment", "Peace", "Serenity", "Brother", "Sister", "Silent", "Still", "Master", "Student"]}
+Monk.lastNameList = ["of Harmony", "Peaceful", "Flowingstream", "Silentfoot", "Stillwind", "Tranquilheart", "Enlightened", "Calmwater", "Balancewalker", "Meditationcloud", "Serenityblossom", "Zenmind", "Qiwhisper", "Wisdomleaf", "Brotherhood", "Sisterhood", "MasterofChi", "StudentofPeace"]
+
+Paladin.firstNameList = {"Male": ["Sir", "Valiant", "Noble", "Courageous", "Holy", "Divine", "Loyal", "Virtuous", "Zealous", "Radiant", "Honorable", "Brave", "Gallant", "Fearless", "Aegis", "Shield", "Sword"],
+                       "Female": ["Lady", "Valiant", "Noble", "Courageous", "Holy", "Divine", "Loyal", "Virtuous", "Zealous", "Radiant", "Honorable", "Brave", "Gallant", "Fearless", "Aegis", "Shield", "Sword"]}
+Paladin.lastNameList = ["the Valiant", "of Virtue", "Shieldbearer", "Swordsworn", "Holyheart", "Zealouslight", "Nobleblade", "Radiantglory", "Gallanthonor", "Honorbound", "Divinejustice", "Courageousheart", "Fearlessdefender", "Champion", "of the Faith", "the Brave"]
+
+Mystic.firstNameList = {"Male": ["Arcane", "Mystical", "Enigmatic", "Diviner", "Seer", "Astral", "Sorcerer", "Oracle", "Psion", "Mindbender", "Telepath", "Dreamwalker", "Esoteric", "Illusionist", "Warp", "Realitybender", "Shadow", "Eldritch"],
+                      "Female": ["Arcane", "Mystical", "Enigmatic", "Diviner", "Seer", "Astral", "Sorcerer", "Oracle", "Psion", "Mindbender", "Telepath", "Dreamwalker", "Esoteric", "Illusionist", "Warp", "Realitybender", "Shadow", "Eldritch"]}
+Mystic.lastNameList = ["the Mystic", "Mindweaver", "Enchantedsoul", "Seeress", "Astralwalker", "Sorceress", "Oraclesight", "Psionicmind", "Dreamweaver", "Illusionist", "Realityshaper", "Shadowbinder", "Eldritchpower", "Arcane", "Esoteric", "Mystic"]
+
+Sorcerer.firstNameList = {"Male": ["Arcane", "Mystical", "Enigmatic", "Diviner", "Seer", "Astral", "Sorcerer", "Mage", "Wizard", "Caster", "Warlock", "Enchanter", "Conjurer", "Summoner", "Elementalist", "Necromancer", "Illusionist", "Pyromancer", "Geomancer"],
+                       "Female": ["Arcane", "Mystical", "Enigmatic", "Diviner", "Seer", "Astral", "Sorceress", "Mage", "Wizard", "Caster", "Warlock", "Enchantress", "Conjurer", "Summoner", "Elementalist", "Necromancer", "Illusionist", "Pyromancer", "Geomancer"]}
+Sorcerer.lastNameList = ["the Sorcerer", "Mage", "Wizard", "Spellweaver", "Enchantedsoul", "Conjurer", "Summoner", "Elementalist", "Necromancer", "Illusionist", "Pyromancer", "Geomancer", "Arcanist", "Mystic", "Enigma"]
+
+Wizard.firstNameList = {"Male": ["Arcane", "Mystical", "Enigmatic", "Diviner", "Seer", "Astral", "Sorcerer", "Mage", "Wizard", "Caster", "Enchanter", "Conjurer", "Summoner", "Elementalist", "Necromancer", "Illusionist", "Pyromancer", "Geomancer"],
+                      "Female": ["Arcane", "Mystical", "Enigmatic", "Diviner", "Seer", "Astral", "Sorceress", "Mage", "Wizard", "Caster", "Enchantress", "Conjurer", "Summoner", "Elementalist", "Necromancer", "Illusionist", "Pyromancer", "Geomancer"]}
+Wizard.lastNameList = ["the Wizard", "Mage", "Sorcerer", "Spellweaver", "Enchantedsoul", "Conjurer", "Summoner", "Elementalist", "Necromancer", "Illusionist", "Pyromancer", "Geomancer", "Arcanist", "Mystic", "Enigma"]
+
+Warlock.firstNameList = {"Male": ["Cursed", "Hex", "Infernal", "Eldritch", "Dread", "Abyssal", "Fiendish", "Dark", "Shadow", "Spectral", "Demonic", "Otherworldly", "Malevolent", "Sinister", "Coven", "Mystic", "Occult", "Warlock", "Vile", "Nether"],
+                      "Female": ["Cursed", "Hex", "Infernal", "Eldritch", "Dread", "Abyssal", "Fiendish", "Dark", "Shadow", "Spectral", "Demonic", "Otherworldly", "Malevolent", "Sinister", "Coven", "Mystic", "Occult", "Warlock", "Vile", "Nether"]}
+Warlock.lastNameList = ["the Warlock", "Hexweaver", "Cursed", "Darkbinder", "Infernal", "Eldritch", "Dread", "Abyssal", "Fiendish", "Shadow", "Spectral", "Demonic", "Malevolent", "Sinister", "Nether", "Coven", "Mystic", "Occult", "Doombringer", "Vile"]
+
+# end unchecked 'names'
+
 Barbarian.featureGain=Barbarian.BarbarianGain
 Artificer.featureGain=Artificer.ArtificerGain
 
