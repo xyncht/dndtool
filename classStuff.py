@@ -6,6 +6,21 @@ import os
 import basics
 import spells
 
+classString='''1) Artificer
+2) Barbarian
+3) Bard
+4) Cleric
+5) Druid
+6) Fighter
+7) Monk
+8) Mystic
+9) Paladin
+10) Ranger
+11) Rogue
+12) Sorcerer
+13) Warlock
+14) Wizard'''
+
 def getMod(stat):
     if stat<10:
         stat-=1
@@ -50,7 +65,8 @@ Max 1 effect/object. Max '''+str(max(getMod(character.stats['int']),1))+" object
             guns=Property("Firearm Proficiency","You are proficient with firearms")
             character.addProperty(guns)
             character.addProperty(mTinker)
-            Spells.makeSpellcaster(character,Artificer):
+            spells.makeSpellcaster(character,Artificer)
+        return character
     def BarbarianGain(cclass,level,character,subclasses=['none']):
         if level==1:
             rage=Property("Rage",'''In battle, you fight with primal ferocity. On your turn, you can enter a rage as a bonus action. While raging, you gain the following benefits if you aren't wearing heavy armor:
@@ -93,6 +109,8 @@ Doing so gives you advantage on melee weapon attack rolls using Strength during 
             if sb=='none':
                 sb=random.choice(barbarianSubclasses)
                 character.subclasses.append(sb)
+                if character.subclasses[0]=='none':
+                    character.subclasses=character.subclasses[1:]
                 new=True
             if sb=="Ancestral Guardian":
                 aGuard=Property("Ancestral Protectors",'''While you're raging, the first creature you hit with an attack on your turn becomes the target of spirits which hinder its attacks.
@@ -179,64 +197,20 @@ Mystic=Class("Mystic","d8")
 classList.append(Artificer)
 classList.append(Barbarian)
 classList.append(Bard)
-classList.append(Fighter)
-classList.append(Druid)
 classList.append(Cleric)
+classList.append(Druid)
+classList.append(Fighter)
+classList.append(Monk)
+classList.append(Mystic)
+classList.append(Paladin)
 classList.append(Ranger)
-##classList.append(Rogue)
-##classList.append(Monk)
-##classList.append(Paladin)
-##classList.append(Mystic)
-##classList.append(Sorcerer)
-##classList.append(Wizard)
-##classList.append(Warlock)
+classList.append(Rogue)
+classList.append(Sorcerer)
+classList.append(Warlock)
+classList.append(Wizard)
 
-Artificer.firstNameList={"Male" : ["Alec","Oil","Alkali","Salt","Sparky","Malachi","Ham","Crovak","Arturo","Arthur","Fash","Beebo","Clint","Colton","Iniquious","Able","Wort"], "Female" : ["Sparky","Fizzle","Estrella","Star","Tink","Lisa","Elizabeth","Mildred","Esther","Ether","Gravity","Orba","Acid","Peridot","Effervescence","Amber","Quima","Serena","Xiphura","Gemma"]}
-Artificer.lastNameList=["Tinkerman","Tralysis","Barr","Vintner","Gnomekin","Mason","Freeman","Depth","Crafthome","Gemwise","Workready"]
-Barbarian.firstNameList={"Male" : ["Quake","Mountain-in-Winter","Sun-on-Taiga","Grog","Agog","Crovax","Conan","Urgor","Amos","Belphor","Yuri","Igor","Bull","Ox","Quarm","Brutus","Wolf","Pugillius","Brock"], "Female" : ["Olga","Hilda","Hilde","Gorma","Argovf","Brunhilde","Brunna","Ronna","Rocce","Wrath-of-the-Mother","Geovanna","Quake","Daughter-of-Bear"]}
-Barbarian.lastNameList=["Rocksteady","","Giantsoul","of the Mountain","of the Sky Father","of the North","of the West","Wildkin","the Hammer","the Unstoppable","the Unconquered","the Defiant", "the Bloody","the Red","the Black","the Fair","Skullbreaker","Bearslayer","Dragonslayer","Flesheater","Brokenshield","Lastman","the Furious","Steele","Stoneskin","Ironhide","Snow","the Strong","Fisher","Hunter","Orchild","Wilkins","Wilkin","Galica","the Axe"]
-Bard.firstNameList={"Male" : ["Wolfgang","Amadeus","John","Gabriel","Glint","Rough","Fabio","Cassius","Giacomo","Stereo","Franz","Ludwig","Jean-Paule","Viswanathan","Romeo","Pierre","Pedro","Clement","Temerius"],"Female" : ["Rose","Juliet","Humility","Star","Benitia","Blessing","Chamomile","Eve","Susan","Darla","Shirley","Dorothea","Tsing","Xiaotong","Nona","Hildegard","Florence","Lili","Amy","Clara","Florence"]}
-Bard.lastNameList=["Singer","Stryker","Starr","Trumpet","Drummer","Sparkle","Casanova","Farussi","Maddalena","Golde","the Proud"]
-Fighter.firstNameList={"Male" : ["John","Sabre","Grok","Bartholomew","Chester","Donnovan","Spartacus","Maximus","Septimus","Alder","William","Eric","Aldrich","Garth"], "Female" : ["Samantha","Vixian","Vanessa","Claudia","Karla","Nani","Hanako","Cherry","Apple","Brier","Faustina","Fidelma","Anastasia","Hippolyta","Hippolyta","Melanippe","Antiope"]}
-Fighter.lastNameList=["Carver","Themiscyrian","the Warrior","Freeman","of the Sword","Arm-bearer","Shield-Bearer","Verias","Valerian","Kingsman","Kane","the Brave","the Daring","the Bold","the Quick","the Red","the Black","the Brown","the Grey"]
-Druid.firstNameList={"Male":["Wind-in-Branches","Pebble","Stone-from-the-Heavens","Odin","Cody","Alder","Birch","Durian","Jack","Elder","Alph","Dogwood","Mulberry","Birch","Oak"], "Female":["Apple","Cherry","Yew","Birch","Blueberry","Clover","Greenleaf","Pomegranate","Melonie","Willow","Ash","Sequoia","Swallowtail","Moshka","Fern","Brooke","Spring-Moss","Sunshadow","Rain-on-Snow","Brier","Thorn","Rose","Dahlia","Poppy","Rafflesia","Flora","Florence","Nightsong","Water-meets-Land"]}
-Druid.lastNameList=["Greenblossom","Blueblossom","Redflower","Springtide","Eventide","Winters","Summerfield","Acorn", "Bitterblossom", "Elderberry","Sargassum","Swampwallow","Bear-brother","Wolfmother","Swift","Swallow","Hare","Rabbit","Bounces-Brightly","Treechild","the Wanderer","the Lost","the Finder","Moonwatcher","Stargazer","Druid","Demonslayer","Forest-Friend","Desertkin","of the Sands","of the Sea","of the River","Elksmate","Hart","of the Wilds","Wilde","Strange"]
-Cleric.firstNameList={"Male":["Bartholomew","Elric","Æsa","Carlos","Jesus","Muhammad","Muhatma","Sidartha","Moses","Able","Honor","Elija","Isaiah","Obadiah","Ezekial","Ezra","Malachi","Amr","Ali","Bartok","Cyril","Patrick","Stephen","Andrew","George","Vishy","Sunil","Rohan","Temperance","Hope"],"Female":["Keziah","Marie","Claire","Ester","Ethyl","Rahab","Deuteronomy","Joan","Zipporah","Ximena","Leah","Miriam","Rebecca","Sara","Huldah","Abigail","Serenity","Hope","Charity","Temperance","Chastity","Prudence","Blessing"]}
-Cleric.lastNameList=["the Merciful","the Mild","the Merciless","the Flambeaux","the Evangelist","Flameheart","Frostbrow","Priest","Book","Booker","Ready-for-Death","the Undying","Peacemaker","Peacebreaker","Lifetaker","Lifebringer","of the Far Waters","the Second","the Third","the Eighth","the Blessed","who Blesses","Crop-Blesser","Raindancer","Medicine-maker","Sits-with-Spirits","the Questioning","the Atheist","the Forgiven","of the Far Ones"]
-Ranger.firstNameList={"Male":["Sabre","Oscar","Pebble","Gultch","Red","John","Vaegram","Cordell","James","Ezekial","Joseph","Yussef","Arman","Alder","Vengeance","Dogwood","Ivan","Ariel"],"Female":["Raven","Crow","Owl","Littleflower","Whiteflower","Rose","Thorn","Saffron","Rose-of-Sharron","Esmerelda","Pear","Effervescence","Moonlight","Xera","Fara","Fidelma","Faithless","Hope","Dawn","Twilight","Wind-on-Stone","Grace","Liena"]}
-Ranger.lastNameList=["the Wild","Windrunner","Blade","Zephyr","of the Forest","Ranger","Strider","the Mountain","the Fierce","the Quick","Eagle-eye","Bear's-Strength","Bearslayer","Dragonslayer","the Proud","the Watcher","Returned","the Survivor","Bowmaker","Fletcher","Flint","Knapper","Smith","Doe"]
 
-# ... (uncecked names)
-
-Rogue.firstNameList = {"Male": ["Shadow", "Silent", "Swift", "Dagger", "Whisper", "Rat", "Sly", "Deceit", "Cunning", "Mystery", "Fox", "Rogue", "Shade", "Noctis", "Garrett", "Viper", "Slade"],
-                     "Female": ["Shadow", "Silent", "Swift", "Dagger", "Whisper", "Rat", "Sly", "Deceit", "Cunning", "Mystery", "Fox", "Rogue", "Shade", "Noctis", "Garrett", "Viper", "Slade"]}
-Rogue.lastNameList = ["the Shadow", "Silentfoot", "Swiftblade", "Daggerfall", "Whisperwind", "Blackcloak", "Greythief", "Deceitful", "Cunning", "Mysterio", "Foxworthy", "Nightshade", "Nocturnal", "Darkblade", "Viperscale", "Silade"]
-
-Monk.firstNameList = {"Male": ["Zen", "Harmony", "Tranquil", "Qi", "Meditation", "Calm", "Wisdom", "Flow", "Balance", "Enlightenment", "Peace", "Serenity", "Brother", "Sister", "Silent", "Still", "Master", "Student"],
-                    "Female": ["Zen", "Harmony", "Tranquil", "Qi", "Meditation", "Calm", "Wisdom", "Flow", "Balance", "Enlightenment", "Peace", "Serenity", "Brother", "Sister", "Silent", "Still", "Master", "Student"]}
-Monk.lastNameList = ["of Harmony", "Peaceful", "Flowingstream", "Silentfoot", "Stillwind", "Tranquilheart", "Enlightened", "Calmwater", "Balancewalker", "Meditationcloud", "Serenityblossom", "Zenmind", "Qiwhisper", "Wisdomleaf", "Brotherhood", "Sisterhood", "MasterofChi", "StudentofPeace"]
-
-Paladin.firstNameList = {"Male": ["Sir", "Valiant", "Noble", "Courageous", "Holy", "Divine", "Loyal", "Virtuous", "Zealous", "Radiant", "Honorable", "Brave", "Gallant", "Fearless", "Aegis", "Shield", "Sword"],
-                       "Female": ["Lady", "Valiant", "Noble", "Courageous", "Holy", "Divine", "Loyal", "Virtuous", "Zealous", "Radiant", "Honorable", "Brave", "Gallant", "Fearless", "Aegis", "Shield", "Sword"]}
-Paladin.lastNameList = ["the Valiant", "of Virtue", "Shieldbearer", "Swordsworn", "Holyheart", "Zealouslight", "Nobleblade", "Radiantglory", "Gallanthonor", "Honorbound", "Divinejustice", "Courageousheart", "Fearlessdefender", "Champion", "of the Faith", "the Brave"]
-
-Mystic.firstNameList = {"Male": ["Arcane", "Mystical", "Enigmatic", "Diviner", "Seer", "Astral", "Sorcerer", "Oracle", "Psion", "Mindbender", "Telepath", "Dreamwalker", "Esoteric", "Illusionist", "Warp", "Realitybender", "Shadow", "Eldritch"],
-                      "Female": ["Arcane", "Mystical", "Enigmatic", "Diviner", "Seer", "Astral", "Sorcerer", "Oracle", "Psion", "Mindbender", "Telepath", "Dreamwalker", "Esoteric", "Illusionist", "Warp", "Realitybender", "Shadow", "Eldritch"]}
-Mystic.lastNameList = ["the Mystic", "Mindweaver", "Enchantedsoul", "Seeress", "Astralwalker", "Sorceress", "Oraclesight", "Psionicmind", "Dreamweaver", "Illusionist", "Realityshaper", "Shadowbinder", "Eldritchpower", "Arcane", "Esoteric", "Mystic"]
-
-Sorcerer.firstNameList = {"Male": ["Arcane", "Mystical", "Enigmatic", "Diviner", "Seer", "Astral", "Sorcerer", "Mage", "Wizard", "Caster", "Warlock", "Enchanter", "Conjurer", "Summoner", "Elementalist", "Necromancer", "Illusionist", "Pyromancer", "Geomancer"],
-                       "Female": ["Arcane", "Mystical", "Enigmatic", "Diviner", "Seer", "Astral", "Sorceress", "Mage", "Wizard", "Caster", "Warlock", "Enchantress", "Conjurer", "Summoner", "Elementalist", "Necromancer", "Illusionist", "Pyromancer", "Geomancer"]}
-Sorcerer.lastNameList = ["the Sorcerer", "Mage", "Wizard", "Spellweaver", "Enchantedsoul", "Conjurer", "Summoner", "Elementalist", "Necromancer", "Illusionist", "Pyromancer", "Geomancer", "Arcanist", "Mystic", "Enigma"]
-
-Wizard.firstNameList = {"Male": ["Arcane", "Mystical", "Enigmatic", "Diviner", "Seer", "Astral", "Sorcerer", "Mage", "Wizard", "Caster", "Enchanter", "Conjurer", "Summoner", "Elementalist", "Necromancer", "Illusionist", "Pyromancer", "Geomancer"],
-                      "Female": ["Arcane", "Mystical", "Enigmatic", "Diviner", "Seer", "Astral", "Sorceress", "Mage", "Wizard", "Caster", "Enchantress", "Conjurer", "Summoner", "Elementalist", "Necromancer", "Illusionist", "Pyromancer", "Geomancer"]}
-Wizard.lastNameList = ["the Wizard", "Mage", "Sorcerer", "Spellweaver", "Enchantedsoul", "Conjurer", "Summoner", "Elementalist", "Necromancer", "Illusionist", "Pyromancer", "Geomancer", "Arcanist", "Mystic", "Enigma"]
-
-Warlock.firstNameList = {"Male": ["Cursed", "Hex", "Infernal", "Eldritch", "Dread", "Abyssal", "Fiendish", "Dark", "Shadow", "Spectral", "Demonic", "Otherworldly", "Malevolent", "Sinister", "Coven", "Mystic", "Occult", "Warlock", "Vile", "Nether"],
-                      "Female": ["Cursed", "Hex", "Infernal", "Eldritch", "Dread", "Abyssal", "Fiendish", "Dark", "Shadow", "Spectral", "Demonic", "Otherworldly", "Malevolent", "Sinister", "Coven", "Mystic", "Occult", "Warlock", "Vile", "Nether"]}
-Warlock.lastNameList = ["the Warlock", "Hexweaver", "Cursed", "Darkbinder", "Infernal", "Eldritch", "Dread", "Abyssal", "Fiendish", "Shadow", "Spectral", "Demonic", "Malevolent", "Sinister", "Nether", "Coven", "Mystic", "Occult", "Doombringer", "Vile"]
-
-# end unchecked 'names'
+import classNames
 
 Barbarian.featureGain=Barbarian.BarbarianGain
 Artificer.featureGain=Artificer.ArtificerGain

@@ -17,6 +17,8 @@ class Character:
         self.saveString=''
         self.proficiency=2
         self.spells={}
+        self.spellString=''
+        self.name=''
         pass
     
     def addProperty(self,nname,ttext='',vvalue=0,):
@@ -40,11 +42,17 @@ class Character:
         if not bbreak:
             self.properties[property.name]=property
             
-    def firstLevel(self,attributeGen="StandardArray"):
+    def firstLevel(self,mod):
+        if 'a' not in mod:
+            attributeGen="StandardArray"
         self.level=1
         gender=random.choice(["Male","Female"])
         cclass=random.choice(classList)
+        if 'c' in mod:
+            cclass=mod['c']
         rrace=random.choice(raceList)
+        if 'r' in mod:
+            rrace=mod['r']
         self.classes=[cclass]
         self.race=rrace
         roll=random.choice([True,False])
@@ -103,7 +111,8 @@ class Character:
             raise("class Spreader not implemented")
 
     def printOut(self):
-        print("You are "+self.name+", a level "+str(self.level)+" "+self.race.name+" "+self.classSpread()+".\n")
+        if self.name!=Character().name:
+            print("You are "+self.name+", a level "+str(self.level)+" "+self.race.name+" "+self.classSpread()+".\n")
         
     
     def refactor(self,cclass):
@@ -114,7 +123,10 @@ class Character:
             self.stats=storage
             self.hp=hpstore
 
-    def generate():
+    def generate(mode):
+        if mode=='BACK':
+            return Character()
+        
         This=Character()
         repeat=True
         while repeat:
@@ -137,8 +149,8 @@ class Character:
 ##            elif s not in ['n','N','no','No','NO','r','R','roll','Roll','','\n']:
 ##                repeat=True
             
-        level=int(q)
-        This.firstLevel()
+        level=int(q)           
+        This.firstLevel(mode)
         i=1
         while i<level:
             This.randLevelUp()
@@ -146,7 +158,7 @@ class Character:
         This.refactor(This.classes[0])
         return This
     
-    def addSpell(self,sspell,nnote,vvalue):
+    def addSpell(self,sspell,nnote='',vvalue=0):
         conflict=False
         key=-999
         
@@ -156,6 +168,7 @@ class Character:
                 key=i
         if not conflict:
             self.spells[sspell.name]=spells.miniSpell(sspell,sspell.name,nnote,vvalue)
+            self.spellString+='#'+sspell.name
         else:
             if nnote in self.spells[key].note:
                 pass
