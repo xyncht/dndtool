@@ -80,8 +80,48 @@ loader.append(causticBrew)
 for i in loader:
     spells[i.name]=i
 
+def learnSpell(character,known):
+    
+    mmin=99 #determine level
+    ans=0
+    for i in known:
+        if len(known[i])<mmin or (len(known[i])==mmin and i>ans):
+            mmin=len(known[i])
+            ans=i
+            
+    j=[] #load spells
+    for i in spells: 
+        if character.classes[0].name in spells[i].learnedBy and spells[i].level==ans: #will need adjustment for multiclassing, probably additional parameter to function
+            j.append(spells[i])
+
+    for i in character.spells: #remove matches
+        for k in j:
+            if i==k:
+                j.remove(k)
+            
+    
+    
+    k=random.choice(j) #add spell
+    character.addSpell(k)
+
+def highest(cclass,level):
+    if cclass.name in ['Artificer']:
+        highest={1:1, 5:2, 9:3, 13:4, 17:5}  ##Find the highest spell level known by level
+        for i in range(1,5):
+            highest[i]=1
+        for i in range(5,9):
+            highest[i]=2
+        for i in range(9,13):
+            highest[i]=3
+        for i in range(13,17):
+            highest[i]=4
+        for i in range(17,21):
+            highest[i]=5
+    return highest[level]
+
 def makeSpellcaster(character,cclass):
     if cclass.name=='Artificer':
+        
         aSpell=basics.Property('Artificer Spellcasting','''You can cast spells using thieves' tools or artisans' tools.
                         You can change out your prepared non-cantrip spells from the full list each day.
                         Your save DC is '''+str(basics.getMod(character.stats['int'])+8+character.proficiency)+'.')
@@ -91,12 +131,67 @@ def makeSpellcaster(character,cclass):
             boxes[i]=4
         sslots=basics.Property('Spell Slots','You have '+str(boxes[character.level])+' 1st level spell slots.')
         character.addProperty(sslots)
+
         if 'a' not in character.saveString:
             j=[]
             for i in spells:
                 if 'Artificer' in spells[i].learnedBy and spells[i].level==1:
                     j.append(spells[i])
+            up=0
             for i in range(0,max(basics.getMod(character.stats['int']),1)):
-                character.addSpell(random.choice(j))
-            character.saveString+='a'
+                k=random.choice(j)
+                character.addSpell(k)
+                j.remove(k)
+                up+=1
+
+            if up<10:
+                up='0'+str(up)
+            else:
+                up=str(up)
+            character.saveString+='a'+up
+
+        code=character.saveString
+        i=0
+        done=False
+        while not done:
+            if code[0]=='a':
+                key=int(code[1]+code[2])
+                done=True
+            else:
+                i+=1
+                code=code[1:]
+                
+        full=int(character.level/2)+basics.getMod(character.stats['int'])
+        diff=full-key #will need adjustment for multiclassing
+
+        lv={}
+        for i in range(0,highest(cclass,character.level)+1):
+            lv[i]=[]
+        for i in character.spells:
+            lv[character.spells[i].spell.level].append(i)
+            
+        while diff>0:
+            learnSpell(character,lv)
+            diff-=1
+
+        code=character.saveString
+        i=0
+        done=False
+        while not done:
+            if code[0]=='a':
+                key=i
+                done=True
+            else:
+                i+=1
+                code=code[1:]
+
+        dig1=str(int(full/10))
+        dig2=str(full%10)
+        
+        character.saveString=character.saveString[0:key]+'a'+dig1+dig2+character.saveString[key+3:] #save progress
+                
+                
+            
+            
+        
             

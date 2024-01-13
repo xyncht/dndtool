@@ -77,7 +77,7 @@ for _ in range(5):
 Elf.abilityMods={}
 
 Elf.firstNameList={"Male":generate_elven_name(), "Female":generate_elven_name()}
-Elf.LastNameList=[generate_elven_name()]
+Elf.lastNameList=[generate_elven_name()]
 
 
 
