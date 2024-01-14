@@ -139,15 +139,6 @@ class Character:
                 else:
                     print("Sorry, I didn't understand that.  Try entering a number from 1 to 20, or (b)ack.\n")
                     repeat=True
-        repeat=True
-##        while repeat:
-##            repeat=False
-##            s=input("Would you like to set any other parameters? (y/n)\n")
-##            print("\n\n")
-##            if s in ['y','Y','yes','Yes','s','S','set','Set']:
-##                print("not yet implemented\n")
-##            elif s not in ['n','N','no','No','NO','r','R','roll','Roll','','\n']:
-##                repeat=True
             
         level=int(q)           
         This.firstLevel(mode)

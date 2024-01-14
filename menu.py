@@ -37,6 +37,7 @@ def loadUp(text):
             else:
                 current+=ttext[0]
                 ttext=ttext[1:]
+        spells.setCantrips(0,char)
         for i in array:
             if i != '':
                 char.addSpell(spells.spells[i])
