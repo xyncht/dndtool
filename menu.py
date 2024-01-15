@@ -21,6 +21,7 @@ def loadUp(text):
             else:
                 char=char+text[0]
                 text=text[1:]
+                
     def spellLoad(char):
         ttext=char.spellString
         loop=True
@@ -40,7 +41,7 @@ def loadUp(text):
         spells.setCantrips(0,char)
         for i in array:
             if i != '':
-                char.addSpell(spells.spells[i])
+                char.flashSpell(spells.spells[i])
                 
     curfile=Character()
     curfile.name=nextWord()
@@ -58,31 +59,75 @@ def loadUp(text):
     curfile.stats["cha"]=int(nextWord())
     curfile.saveString=nextWord()
     curfile.spellString=nextWord()
-    while len(curfile.spellString)>0 and curfile.spellString[-1]=='#':
+    while len(curfile.spellString)>0 and curfile.spellString[-1]=='#': ##delete this and two following lines maybe
         curfile.spellString=curfile.spellString[:-1]
     curfile.spellString+='#'
     spellLoad(curfile)
+    curfile.skillLoad(nextWord())
     for i in range(1,curfile.level+1):
         curfile=curfile.classes[0].featureGain(i,curfile)
     curfile.hp=curfile.classes[0].hp*(1+curfile.level)-2+curfile.level*getMod(curfile.stats["con"])
     for i in curfile.classes:
         curfile.refactor(i)
+
     return curfile
 
 def save(curfile):
+    prof=''
+    for i in curfile.proficiencies:
+        prof+=i
+        prof+='#'
+    for i in curfile.expertises:
+        prof+=i
+        prof+='#'
     file= open(curfile.name+'.txt', 'w') ##will overwrite existing file with same name if present until check implemented!
-    file.write(curfile.name+"@"+curfile.classSpread()+"@"+str(curfile.level)+"@"+curfile.race.name+"@"+str(curfile.stats["str"])+"@"+str(curfile.stats["dex"])+"@"+str(curfile.stats["con"])+"@"+str(curfile.stats["int"])+"@"+str(curfile.stats["wis"])+"@"+str(curfile.stats["cha"])+"@"+curfile.saveString+"@"+curfile.spellString+'#'+"@@")
+    file.write(curfile.name+"@"+curfile.classSpread()+"@"+str(curfile.level)+"@"+curfile.race.name+"@"+str(curfile.stats["str"])+"@"+str(curfile.stats["dex"])+"@"+str(curfile.stats["con"])+"@"+str(curfile.stats["int"])+"@"+str(curfile.stats["wis"])+"@"+str(curfile.stats["cha"])+"@"+curfile.saveString+"@"+curfile.spellString+'#'+'@'+prof+"@"+"@@")
     file.close()
     print("\n\nfile saved as "+curfile.name+'.txt\n')
     
 def detMenu(curfile):
     sub=True
     while sub:
-        q=input("Would you like to view Class (F)eatures,(S)pells,(I)tems, or go (B)ack?\n")
+        q=input("Would you like to view Class (F)eatures,(P)roficiencies,(S)pells,(I)tems, or go (B)ack?\n")
         print("\n\n")
         if q in ['f','F','Features','features','c','C','class','Class']:
             for k in curfile.properties:
                 print(curfile.properties[k].text+"\n\n")
+        if q in ['p','P','prof','Prof','proficiencies','Proficiencies','proficiency','Proficiency']:
+            sp=[]
+            tp=[]
+            se=[]
+            te=[]
+            for k in curfile.proficiencies:
+                if k in curfile.expertises:
+                    if k in basics.skillList:
+                        se.append(k)
+                    else:
+                        te.append(k)
+                else:
+                    if k in basics.skillList:
+                        sp.append(k)
+                    else:
+                        tp.append(k)
+            print("You are proficient in:\n")
+            for i in sp:
+                print("- "+i)
+            if len(tp)>0:
+                if len(sp)>0:
+                    print("               As well as:\n")
+                for i in tp:
+                    print("- "+i)
+            if len(se)>0 or len(te)>0:
+                print("You have expertise in:\n")
+                for i in se:
+                    print("- "+i)
+                if len(te)>0:
+                    if len(se)>0:
+                        print("               As well as:\n")
+                    for i in te:
+                        print("- "+i)
+                
+            
         if q in ['s','S','spells','Spells']:
             levelSort=[[],[],[],[],[],[],[],[],[],[]]
             for k in curfile.spells:

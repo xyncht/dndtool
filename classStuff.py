@@ -32,8 +32,55 @@ class Property:
         self.text=ttext
         self.value=vvalue
 
+artificerSubclasses=['Alchemist','Armorer','Artillerist','Battle Smith']
 barbarianSubclasses=["Wild Magic Barbarian","Zealot","Storm Herald","Berserker","Juggernaut","Ancestral Guardian","Bear Warrior","Eagle Warrior","Elk Warrior","Tiger Warrior","Wolf Warrior"]
 
+
+def addRandomSkill(char,cclass):
+    artificerSkills=['Arcana','History','Investigation','Medicine','Nature','Perception','Sleight of Hand']
+    barbarianSkills=['Animal Handling','Athletics','Intimidation','Nature','Perception','Survival']
+    if cclass=='Artificer':
+        sk1=random.choice(artificerSkills)
+        while sk1 in char.proficiencies:
+            sk1=random.choice(basics.skillList)            
+        char.proficiencies.append(sk1)
+    if cclass=='Barbarian':
+        sk1=random.choice(barbarianSkills)
+        while sk1 in char.proficiencies:
+            sk1=random.choice(basics.skillList)            
+        char.proficiencies.append(sk1)
+
+
+
+def skillGen(char,key):
+    
+    if key in ['Artificer','Barbarian']: ##General skill gain
+        for i in range (0,2):
+            addRandomSkill(char,key)
+            
+    if key=='Artificer': ##Weird stuff
+        if "Thieves' Tools" not in char.proficiencies:
+            char.proficiencies.append("Thieves' Tools")
+        else:
+            sk1=random.choice(basics.trueToolsList)
+            while sk1 in char.proficiencies:
+                sk1=random.choice(basics.toolList)            
+            char.proficiencies.append(sk1)
+        if "Tinker's Tools" not in char.proficiencies:
+            char.proficiencies.append("Tinker's Tools")
+        else:
+            sk1=random.choice(basics.artisanList)
+            while sk1 in char.proficiencies:
+                sk1=random.choice(basics.toolList)            
+            char.proficiencies.append(sk1)
+        sk1=random.choice(basics.artisanList)
+        while sk1 in char.proficiencies:
+            sk1=random.choice(basics.artisanList)
+        char.proficiencies.append(sk1)
+        
+        
+        
+    
 class Class:
     def __init__(self,nname='',hpdie="d8"):
         self.name=nname
@@ -464,7 +511,162 @@ If you try to exceed your maximum number of infusions, the oldest infusion immed
 If an infusion ends on an item that contains other things, like a bag of holding, its contents harmlessly appear in and around its space.''')
             character.addProperty(infusions)
             learnInfusions(character)
-            
+
+        if level==3:
+            start(character)
+            sb='none'
+            new=False
+            for i in character.subclasses: #Check subclass
+                if i in artificerSubclasses:
+                    sb=i
+            if sb=='none': #Assign
+                sb=random.choice(artificerSubclasses)
+                character.subclasses.append(sb)
+                if character.subclasses[0]=='none':
+                    character.subclasses=character.subclasses[1:]
+                new=True
+            if sb=='Alchemist':
+                if new:
+                    sk1='Alchemist\'s Supplies'
+                    while sk1 in character.proficiencies:
+                        sk1=random.choice(basics.artisanList)
+                    character.proficiencies.append(sk1)
+                character.addSpell(spells.spells["Healing Word"],'always available',1)
+                character.addSpell(spells.spells["Ray of Sickness"],'always available',1)
+                expElix=Property('Experimental Elixir','''You make an elixir with Alchemist's Supplies each long rest. It has one of the following effects, at random:
+- Heal 2d4+'''+str(basics.getMod(character.stats['int']))+''' hp
+- Walking speed increases by 10' for 1 hour
+- +1 AC for 10 minutes
+- + 1d4 to every attack roll and save for one minute
+- 10' fly speed for 10 minutes.
+- Replicate Alter Self with 10 minute duration (no concentration)
+
+As an action, a creature can drink the elixir or administer it to an incapacitated creature.
+It lasts until the next long rest or until consumed.
+
+You can sacrifice spell slots to create additional elixirs at any time-- 1 elixir per spell slot regardless of level.
+When you do so, you use your action to create the elixir in an empty flask you touch,
+and you choose the elixir's effect rather than rolling.''')
+                character.addProperty(expElix)
+            if sb=='Armorer':
+                if 'Heavy Armor' not in character.proficiencies:
+                    character.proficiencies.append('Heavy Armor')
+                if new:
+                    sk1='Smith\'s Tools'
+                    while sk1 in character.proficiencies:
+                        sk1=random.choice(basics.artisanList)
+                    character.proficiencies.append(sk1)
+                character.addSpell(spells.spells["Magic Missile"],'always available',1)
+                character.addSpell(spells.spells["Thunderwave"],'always available',1)
+                aArmor=Property("Arcane Armor",'''As an action, you can enchant your armor with Smith's Tools.
+
+You gain the following benefits while wearing this armor:
+
+- If the armor normally has a Strength requirement, the arcane armor lacks this requirement for you.
+- You can use the arcane armor as a spellcasting focus for your artificer spells.
+- The armor attaches to you and can't be removed against your will.
+- It expands to cover your entire body.
+- The armor replaces any missing limbs, functioning identically to a limb it replaces.
+- You can retract or deploy the helmet as a bonus action
+- You can doff or don the armor as an action.
+
+The armor continues to be Arcane Armor until you don another suit of armor or you die.''')
+                character.addProperty(aArmor)
+                if new:
+                    model=random.choice([0,1])
+                    if model==0:
+                        character.saveString+='I'
+                if 'I' in character.saveString:
+                    armorMod=Property("Armor Model: Infiltrator",''' 
+You can use your armor to make weapon attacks with Int with range of 90'/300', dealing 1d6 lightning damage.
+You can add your Int to the damage in place of Dex.
+
+1/turn, you can deal an extra 1d6 lightning damage on a hit with that attack.
+
+Your walking speed increases by 5 feet.
+
+You have advantage on Dexterity (Stealth) checks.''')
+                else:
+                    armorMod=Property("Armor Model: Guardian",'''
+You can make melee attacks with your armor using Int instead of Str, dealing 1d8 thunder damage.
+On hit, target has disadvantage on attacks against targets other than you until the start of your next turn
+
+As a bonus action, you can lose all temp hp you have and gain '''+str(character.level)+''' temp hp instead.
+You lose these temporary hit points if you doff the armor.
+You can use this bonus action '''+str(character.proficiency)+" times per long rest.")
+                character.addProperty(armorMod)
+            if sb=="Artillerist":
+                if new:
+                    sk1='Woodcarver\'s Tools'
+                    while sk1 in character.proficiencies:
+                        sk1=random.choice(basics.artisanList)
+                    character.proficiencies.append(sk1)
+                character.addSpell(spells.spells["Shield"],'always available',1)
+                character.addSpell(spells.spells["Thunderwave"],'always available',1)
+                eldCannon=Property("Eldritch Cannon",'''You can using woodcarver's tools or smith's tools to magically create a Small or Tiny eldritch cannon on flat empty ground next to you as an action.
+A Small eldritch cannon occupies its space, and a Tiny one can be held in one hand.
+You get 1 free cannon per long rest, plus you regain the ability to create a cannon each time you expend a spell slot.
+You can have only one cannon at a time and can't create one while you have one.
+
+The cannon is a magical object. Regardless of size, the cannon has 18 AC and '''+str(character.level*5)+''' hp.
+It is immune to poison damage and psychic damage, and all conditions.
+If it is forced to make an ability check or a saving throw, treat all its ability scores as 10 (+0).
+If the mending spell is cast on it, it regains 2d6 hit points.
+It disappears if it is reduced to 0 hit points or after 1 hour. You can dismiss it early as an action.
+
+When you create the cannon, you determine its appearance and whether it has legs. You also decide which type it is.
+On each of your turns, you can take a bonus action to cause the cannon to activate if you are within 60 feet of it.
+As part of the same bonus action, you can direct the cannon to walk or climb up to 15 feet to an unoccupied space, provided it has legs.
+
+The type of the cannon determines what happens when you activate it:
+
+Flamethrower	The cannon blasts an adjacent 15-foot cone.
+                Each creature there takes 2d8 fire damage, DC '''+str(getMod(character.stats['int'])+8+character.proficiency)+''' Dex save for half.
+                The fire ignites any flammable objects in the area that aren't being worn or carried.
+                
+Force Ballista	Make a ranged spell attack for 2d8 force damage, originating from the cannon, at a target within 120'.
+                If you hit a creature, it is pushed 5' away.
+                
+Protector	The cannon grants itself and each creature of your choice within 10' of it 1d8+'''+str(max(1,character.stats['int']))+" temp hp.")
+                character.addProperty(eldCannon)
+            if sb=="Battle Smith":
+                if new:
+                    sk1='Smith\'s Tools'
+                    while sk1 in character.proficiencies:
+                        sk1=random.choice(basics.artisanList)
+                    character.proficiencies.append(sk1)
+                character.addSpell(spells.spells["Shield"],'always available',1)
+                character.addSpell(spells.spells["Heroism"],'always available',1)
+                battleReady=Property("Battle Ready","You can use Int instead of Str or Dex for attack and damage rolls with magic weapons")
+                character.addProperty(battleReady)
+                if 'All Martial Weapons' not in character.proficiencies:
+                    character.proficiencies.append('All Martial Weapons')
+                steelDef=Property("Steel Defender",'''You have a golem companion. It is friendly to you and your companions, and it obeys your commands.
+
+The defender takes its turn immediately after you on the save initiative count.
+The only Action it can take is Dodge, unless you sacrifice a bonus action on your turn.
+If you are incapacitated, the defender can take any action of its choice, not just Dodge.
+
+It is immune to surprise.
+If the mending spell is cast on it, it regains 2d6 hit points.
+If it has died within the last hour, you can use your smith's tools as an action to revive it, provided you are within 5 feet of it and you expend a spell slot of 1st level or higher.
+The steel defender returns to life after 1 minute with all its hit points restored.
+
+At the end of a long rest, you can create a new steel defender if you have your smith's tools with you.
+If you already have a steel defender from this feature, the first one immediately perishes.
+The defender also perishes if you die.
+
+It has '''+str(2+character.stats['int']+5*character.level)+''' hp and 15 AC.''')
+                character.addProperty(steelDef)
+            rightTool=Property("The Right Tool for the Job",'''You can create artisan's tools of any kind ex nihilo using thieves' or artisan's tools and 1 hour.
+You can do this work as part of a long or short rest without it counting as any kind of interruption, even to sleep.
+The tools so created are non-magical, but have several "non-magical" properties:
+
+- you can cause them to cease existing at any time
+- they cease existing if you begin using this feature again''')
+            character.addProperty(rightTool)
+                
+                
         return character
     def BarbarianGain(cclass,level,character,subclasses=['none']):
         if level==1:
@@ -502,7 +704,7 @@ Doing so gives you advantage on melee weapon attack rolls using Strength during 
 
     Once you have raged thrice, you must finish a long rest before you can rage again.''',1)
             character.addProperty(rage)
-            for i in character.subclasses:
+            for i in character.subclasses: #Check subclass
                 if i in barbarianSubclasses:
                     sb=i
             if sb=='none':
