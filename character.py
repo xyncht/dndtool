@@ -16,6 +16,8 @@ class Character:
         self.properties={}
         self.saveString=''
         self.proficiency=2
+        self.proficiencies=[]
+        self.expertises=[]
         self.spells={}
         self.spellString=''
         self.name=''
@@ -43,6 +45,7 @@ class Character:
             self.properties[property.name]=property
             
     def firstLevel(self,mod):
+        
         if 'a' not in mod:
             attributeGen="StandardArray"
         self.level=1
@@ -55,6 +58,7 @@ class Character:
             rrace=mod['r']
         self.classes=[cclass]
         self.race=rrace
+        
         roll=random.choice([True,False])
         if roll:
             nname=random.choice(cclass.firstNameList[gender])
@@ -65,9 +69,11 @@ class Character:
             nnname=random.choice(cclass.lastNameList)
         else:
             nnname=random.choice(rrace.lastNameList)
+            
         self.name= nname+" "+nnname
 
         self.stats={"str":10,"dex":10,"con":10,"int":10,"wis":10,"cha":10}
+        
         if attributeGen=="3d6Fixed":
             raise "3d6Fixed is not defined"
         elif attributeGen=="4d6DropOne":
@@ -81,6 +87,7 @@ class Character:
             self.race.abilityMod(self)
 
         self.hp=self.classes[0].hp*2-2+getMod(self.stats["con"])
+        classStuff.skillGen(self,self.classes[0].name)
         self=self.classes[0].featureGain(1,self)
         
     def randLevelUp(self):
@@ -177,7 +184,32 @@ class Character:
             elif vvalue<0:
                 newnote=self.spells[key].note+" or "+nnote
                 self.spells[sspell.name]=spells.miniSpell(sspell,sspell.name,newnote,vvalue)
+    def flashSpell(self,sspell):
+        self.spells[sspell.name]=spells.miniSpell(sspell,sspell.name,'',0)
         
+    def skillLoad(char,blurb):
+        loop=True
+        array1=[]
+        array2=[]
+        current=''
+        while loop:
+            if blurb[0]=='#':
+                if current in array1:
+                    array2.append(current)
+                else:
+                    array1.append(current)
+                if len(blurb)>1:
+                    blurb=blurb[1:]
+                    current=''
+                else:
+                    loop=False
+            else:
+                current+=blurb[0]
+                blurb=blurb[1:]
+        for i in array1:
+            char.proficiencies.append(i)
+        for i in array2:
+            char.expertises.append(i)
                 
 
 

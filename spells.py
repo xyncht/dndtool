@@ -162,12 +162,22 @@ falseLife=Spell("False Life",1,'''You get 1d4+4 temp hp''',['Artificer','Bard','
 featherFall=Spell("Feather Fall",1,'''You and up to 5 allies within 60 feet stop falling and slowly descend 60' per round for 1 minute.
 The spell ends on a creature when they land.''',['Artificer','Bard','Sorcerer','Wizard'])
 grease=Spell("Grease",1,'''cover 10' square within 60' in grease, forcing Dex saves v.s. falling prone on cast, entry, and turn end. Also difficult terrain.''',['Artificer','Bard','Wizard'])
+healingWord=Spell("Healing Word",1,'''As a bonus action heal 1d4 + your spell modifier to target within 60'.''',['Bard','Ceric','Druid'])
+heroism=Spell("Heroism",1,'''A touched creature becomes immune to being frightened,
+and gains temp hp equal to your spell mod at the start of each of its turns.
+Any remaining temp hp are lost when the spell ends, which it does after Concentration max 1 minute.''',['Bard','Paladin'])
 identify=Spell("Identify",1,'''You can take a minute to learn the magic affecting an object or creature touched, including the full workings of a magical item''',['Artificer','Bard','Wizard'])
 jump=Spell("Jump",1,'''You triple a creature's jump distance for 1 minute''',['Artificer','Bard','Druid','Ranger','Sorcerer','Wizard'])
 longstrider=Spell("Longstrider",1,'''you give a creature +10ft speed for 1 hour''',['Artificer','Bard','Druid','Ranger','Wizard'])
+magicMissile=Spell("Magic Missile",1,'''Deal 1d4+1 force damage with each of three missiles unerringly to a target or targets within 120'.''',['Sorcerer','Wizard'])
 purify=Spell("Purify Food and Drink",1,'''You cleanse food and drink in a 5' sphere''',['Artificer','Cleric','Druid','Paladin','Ranger'])
+rayOfSickness=Spell("Ray of Sickness",1,'''60' ranged spell attack for 2d8 poison damage on hit.
+On hit, Con save or Poisoned until the end of your next turn.''',['Sorcerer','Wizard'])
 sanctuary=Spell("Sanctuary",1,'''As a bonus action, you protect a target within 30 feet for 1 min. Direct attackers must Wis save vs choosing a new target or losing the attack or spell.
 If the warded creature makes an attack, casts a spell that affects an enemy, or deals damage to another creature, this spell ends.''',['Artificer','Cleric'])
+shield=Spell("Shield",1,'''As a reaction to being hit or taking damage, reverse time before the attack that hit and get +5 AC, possibly causing it to miss.
+You retain the AC bonus until your next turn starts.
+You are also retroactively rendered immune to Magic Missile by this spell until then.''',['Sorcerer','Wizard'])
 badSnare=Spell("Lesser Snare",1,'''You can take 1 min to create an invisible magical trap in a 5' radius circle that lasts 8 hours from 25' of rope.
 It can be detected with an Int(Investigation) check vs your save DC.
 It hoists a Small-Large creature into the air upside down, restraining them, Dex save to negate.
@@ -178,12 +188,17 @@ It hoists a Small or larger creature into the air upside down, restraining them 
 Those trapped can escape with Dex saves at disadvantage or an outside helper can use Int(Arcana) checks vs your spell save DC.''',['Druid','Ranger','Wizard'])
 speakWithAnimals=Spell("Speak with Animals",1,'''You can verbally communicate with and understand beasts for the next 10 minutes''',['Druid','Ranger'])
 causticBrew=Spell("Tasha's Caustic Brew",1,'''Shoot acid in a 30' by 5' line. Each creature in the line must make a Dex save or take 2d4 dmg/turn for Concentration max 1 min or until they use an action to clean it off.''',['Artificer'])
+thunderwave=Spell("Thunderwave",1,'''Everyone in a 15' cube with you adjacent to it or present in a space on a face of the cube
+takes 2d8 thunder damage (Con save for half) and is pushed 10' away from you if they failed the save.
+Additionally, there's a loud boom.
+Additionally, unsecured objects in the spells range are automatically moved 10' away, but not damaged.''',['Bard','Druid','Sorcerer','Wizard'])
+                   
+                   
 
 beastSense=Spell("Beast Sense",2,'''For concentration max 1 hour, you can see and hear through a willing beast
 you touch during casting, using its senses rather than your own.''',['Druid','Ranger'])
 
 
-loader.append(beastSense)
 loader.append(speakWithAnimals)
 loader.append(alarm)
 loader.append(catapult)
@@ -196,14 +211,24 @@ loader.append(faerieFire)
 loader.append(falseLife)
 loader.append(featherFall)
 loader.append(grease)
+loader.append(healingWord)
+loader.append(heroism)
 loader.append(identify)
 loader.append(jump)
 loader.append(longstrider)
+loader.append(magicMissile)
 loader.append(purify)
+loader.append(rayOfSickness)
 loader.append(sanctuary)
+loader.append(shield)
 loader.append(badSnare)
 loader.append(goodSnare)
 loader.append(causticBrew)    
+loader.append(thunderwave)
+
+
+loader.append(beastSense)
+                   
 for i in loader:
     spells[i.name]=i
 
