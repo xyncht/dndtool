@@ -39,6 +39,7 @@ barbarianSubclasses=["Wild Magic Barbarian","Zealot","Storm Herald","Berserker",
 def addRandomSkill(char,cclass):
     artificerSkills=['Arcana','History','Investigation','Medicine','Nature','Perception','Sleight of Hand']
     barbarianSkills=['Animal Handling','Athletics','Intimidation','Nature','Perception','Survival']
+    
     if cclass=='Artificer':
         sk1=random.choice(artificerSkills)
         while sk1 in char.proficiencies:
@@ -49,6 +50,11 @@ def addRandomSkill(char,cclass):
         while sk1 in char.proficiencies:
             sk1=random.choice(basics.skillList)            
         char.proficiencies.append(sk1)
+    if cclass=='Bard':
+        sk1=random.choice(basics.skillList)
+        while sk1 in char.proficiencies:
+            sk1=random.choice(basics.skillList)            
+        char.proficiencies.append(sk1)
 
 
 
@@ -56,6 +62,9 @@ def skillGen(char,key):
     
     if key in ['Artificer','Barbarian']: ##General skill gain
         for i in range (0,2):
+            addRandomSkill(char,key)
+    if key in ['Bard']:
+        for i in range (0,3):
             addRandomSkill(char,key)
             
     if key=='Artificer': ##Weird stuff
@@ -77,6 +86,13 @@ def skillGen(char,key):
         while sk1 in char.proficiencies:
             sk1=random.choice(basics.artisanList)
         char.proficiencies.append(sk1)
+        
+    if key=='Bard':
+        for i in range (0,3):
+            sk1=random.choice(basics.musicList)
+            while sk1 in char.proficiencies:
+                sk1=random.choice(basics.musicList)            
+            char.proficiencies.append(sk1)
         
         
         
@@ -775,13 +791,44 @@ When you sense a spell, you learn which school of magic it belongs to. You can u
                 character.addProperty(mSense)
             return character
         return character
+    
+    def BardGain(self,level,character,subclasses=['none']):
+        def start(character):
+            spells.makeSpellcaster(character,Bard)
+            spells.setCantrips(0,character)
+            spells.setRituals(character)
+        if level==1:
+            distrb={}
+            for i in range(1,21):
+                if i<5:
+                    distrb[i]='6'
+                elif i<10:
+                    distrb[i]='8'
+                elif i<15:
+                    distrb[i]='10'
+                else:
+                    distrb[i]='12'
+            bardicInspiration=Property("Bardic Inspiration","you can use a bonus action to give one other hearing creature  within 60' feet a d"+distrb[character.level]+'''.
+
+Once within the next 10 minutes, the creature can roll the die and add the number rolled to one ability check, attack roll, or saving throw it makes.
+The choice can be made after rolling, but before results are revealed.
+A creature can have only one Bardic Inspiration die at a time.
+
+You can use this feature '''+str(max(basics.getMod(character.stats['cha']),1))+''' times per long rest.''')
+            character.addProperty(bardicInspiration)
+            start(character)
+            spells.setCantrips(2,character)
+        return character
+                    
                 
+        
 
   
 
 classList=[]
 
 Wizard=Class("Wizard","d6")
+Wizard.spellStat='int'
 Fighter=Class("Fighter","d10")
 Barbarian=Class("Barbarian","d12")
 Monk=Class("Monk","d8")
@@ -789,6 +836,7 @@ Rogue=Class("Rogue","d8")
 Druid=Class("Druid","d8")
 Ranger=Class("Ranger","d10")
 Bard=Class("Bard","d8")
+Bard.spellStat='cha'
 Cleric=Class("Cleric","d8")
 Paladin=Class("Paladin","d10")
 Sorcerer=Class("Sorcerer","d6")
@@ -814,6 +862,7 @@ classList.append(Wizard)
 
 import classNames
 
+Bard.featureGain=Bard.BardGain
 Barbarian.featureGain=Barbarian.BarbarianGain
 Artificer.featureGain=Artificer.ArtificerGain
 

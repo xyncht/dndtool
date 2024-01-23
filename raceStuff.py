@@ -1,4 +1,8 @@
-import random 
+import basics
+import random
+import copy
+import classStuff
+import spells
 
 class Race:
     def __init__(self,nname=''):
@@ -22,12 +26,27 @@ class Race:
                 bbreak=1
         if not bbreak:
             self.properties.append(property.name,property)
-    def abilityMod(self,char):
-        for i in self.abilityMods:
-            char.stats[i]=char.stats[i]+self.abilityMods[i]
+    def makeRace(self,character):
         if self.name=="Human":
-            for i in char.stats:
-                char.stats[i]+=1
+            global humanSubraces
+            sub=copy.copy(self)
+            sub.name=random.choice(humanSubraces)
+            character.race=sub
+            
+        elif self.name=="Elf":
+            global elfSubraces
+            sub=copy.copy(self)
+            sub.name=random.choice(elfSubraces)
+            character.race=sub
+
+        if character.race.name=="Lesser Human":
+            for i in character.stats:
+                character.stats[i]+=1
+        if character.race.name=="High Elf":
+            makeElf(character)
+            makeBaseHighElf(character)
+            
+            
 
 Human=Race("Human")
 Elf=Race("Elf")
@@ -55,7 +74,7 @@ Human.firstNameList={"Male":["Bart","Dmitri","Vassily","Arthur","Steve","John","
 Human.lastNameList=["Oruba","Ramaposa","Mbumba","Katsyv","Chebyshev","the Black","the Red","the Fair","the Brown","the Grey","the White","White","Black","Fisher","Book","Carpenter","Shepard","Roaver","Wheeler","Carter","Keeper","Beesly","Smith","Downe","Hoover","Rodriguez","Fernandez","Cervantes","O'Reily","O'Toole","O'Mally","O'Loxly","Anand"]
 Human.abilityMods={}
 
-###Start Knat stuff
+###Start Knat Chat GPT stuff
 def generate_elven_name():
     prefixes = ["Ae", "Lir", "Tha", "Elen", "Gal", "Ar", "Lor", "Sil", "Cae", "Fin"]
     midfixes = ["r", "th", "l", "rion", "en", "ion", "ia", "on", "el", "a"]
@@ -157,12 +176,51 @@ for _ in range(5):
 
 ###end Knat stuff
 
+def makeElf(character):
+    character.stats['dex']+=2
+    darkV=basics.Property("Darkvision",'''You can see in dim light within 60' as if it were bright light, and in darkness as if it were dim light.
+                          You can't discern color in darkness.''')
+    character.addProperty(darkV)
+    sk1='Perception'
+    while sk1 in character.proficiencies:
+        sk1=random.choice(basics.skillList)
+    feyAnc=basics.Property("Fey Ancestry","You have advantage on saving throws against being charmed, and magic can't put you to sleep")
+    character.addProperty(feyAnc)
+    trance=basics.Property("Fey Ancestry","You only need to meditate for 4 hours, rather than sleep and spend 8 hours, to long rest.")
+    character.addProperty(trance)
+    for lang in ['Elvish','Common']:
+        while lang in character.languages:
+            lang=random.choice(basics.languageList)
+        character.languages.append(lang)
     
+def makeBaseHighElf(character):
+    character.race.name="High Elf"
+    character.stats['int']+=1
+    
+    save=copy.copy(character.classes)
+    character.classes=[classStuff.Wizard]
+    spells.setCantrips(1,character)
+    character.classes=save
+
+    character.proficiencies.extend(['Longsword','Shortsword','Shortbow','Longbow'])
+
+    sk1='Elvish'
+    while sk1 in character.languages:
+        sk1=random.choice(basics.languageList)
+    character.languages.append(sk1)
+    
+elfSubraces=['High Elf']
+humanSubraces=['Lesser Human']
+
 def raceLookup(nname):
     for i in raceList:
         if i.name==nname:
             return i
     if nname in elfSubraces:
-        return raceLookup("Elf")
+        e=copy.copy(raceLookup("Elf"))
+        e.name=nname
+        return e
     if nname in humanSubRaces:
-        return raceLookup("Human")
+        e=copy.copy(raceLookup("Human"))
+        e.name=nname
+        return e

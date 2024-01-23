@@ -20,6 +20,7 @@ class Character:
         self.expertises=[]
         self.spells={}
         self.spellString=''
+        self.languages=[]
         self.name=''
         pass
     
@@ -84,7 +85,7 @@ class Character:
             for i in self.stats:
                 self.stats[i]=0+values[0]
                 values.pop(0)
-            self.race.abilityMod(self)
+            self.race.makeRace(self)
 
         self.hp=self.classes[0].hp*2-2+getMod(self.stats["con"])
         classStuff.skillGen(self,self.classes[0].name)

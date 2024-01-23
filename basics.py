@@ -15,6 +15,9 @@ class Property:
         self.name=nname
         self.text=ttext
         self.value=vvalue
+
+
+#Lists of proficiencies:
 skillList=['Acrobatics','Animal Handling','Arcana','Athletics','Deception','History','Insight','Intimidation','Investigation','Medicine','Nature','Perception','Performance','Persuasion','Religion','Sleight of Hand','Stealth','Survival']
 
 
@@ -30,6 +33,8 @@ simpleList=['Club','Dagger','Dart','Greatclub','Handaxe','Javelin','Light Crossb
 martialList=['Battleaxe','Blowgun','Double-Bladed Scimitar','Flail','Glaive','Greataxe','Greatsword','Halberd','Hand Crossbow','Heavy Crossbow','Hooked Shortspear','Hoopak','Lance','Longbow','Longsword','Maul','Morningstar','Net','Oversized Longbow','Pike','Rapier','Scimitar','Shortsword','Trident','War Pick','Warhammer','Whip']
 firearmList=['Antimatter Rifle','Automatic Pistol','Automatic Rifle','Hunting Rifle','Laser Pistol','Laser Rifle','Musket','Pistol','Revolver','Shotgun']
 weaponList=simpleList+martialList+firearmList
-blanketList=['All Simple Weapons','All Martial Weapons','All Firearms']
 
+blanketList=['All Simple Weapons','All Martial Weapons','All Firearms']
 armorList=['Light Armor','Medium Armor','Heavy Armor','Shields']
+
+languageList=['Common','Dwarvish','Elvish','Giant','Gnomish','Goblin','Halfling','Orc','Abyssal','Celestial','Draconic','Deep Speech','Infernal','Primordial','Sylvan','Undercommon','Aarokocra','Abanasinian','Abyssal','Alzhedo','Aven','Blink Dog','Bothli','Bullywug','Celestial','Chessentan','Chondathan','Coalition Pidgin','Common','Common Sign Language','Common Trade Pidgin','Daelkyr','Damaran','Dambrathan','Deep Speech','Demonic','Draconic','Dwarvish','Elvish','Ergot','Giant','Giant Eagle','Giant Elk','Giant Owl','Gith','Gnoll','Gnomish','Goblin','Grell','Grung','Guran','Halfling','Halruaan','Homarid','Hook Horror','Ice Toad','Illuskan','Infernal','Istarian','Itzocan','Ixitxachitl','Keldon','Kenderspeak','Kharolian','Khenra','Khur','Kothian','Kraul','Kruthik','Leonin','Loross','Loxodon','Merfolk','Midani','Minotaur','Modron','Mulhorandi','Naga','Nerakese','Netherese','Nordmaarian','Ogre','Olman','Orc','Otyugh','Primordial','Qualith','Quori','Rashemi','Riedran','Roushoum','Sahuagin','Shaaran','Shou','Siren','Slaad','Solamnic','Sphinx','Sylvan','Thayan','Thri-kreen','Tlincalli','Troglodyte','Tuigan','Turmic','Uluik','Umber Hulk','Undercommon','Untheric','Vampire','Vedalken','Vegepygmy','Waelan','Winter Wolf','Worg','Yeti','Yikaria']

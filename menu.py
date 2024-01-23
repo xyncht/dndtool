@@ -143,6 +143,7 @@ def detMenu(curfile):
                         nnote=''
                     print(curfile.spells[i].name+nnote+":")
                     print(curfile.spells[i].spell.text)
+                    print("\n")
                 iter+=1
                     
         if q in ['i','I','items','Items']:
