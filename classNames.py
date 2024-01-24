@@ -28,6 +28,7 @@ Ranger.firstNameList={"Male":["Sabre","Oscar","Pebble","Gultch","Red","John","Va
                         "Female":["Raven","Crow","Owl","Littleflower","Whiteflower","Rose","Thorn","Saffron","Rose-of-Sharron","Esmerelda","Pear","Effervescence","Moonlight","Xera","Fara","Fidelma","Faithless","Hope","Dawn","Twilight","Wind-on-Stone","Grace","Liena"]}
 Ranger.lastNameList=["the Wild","Windrunner","Blade","Zephyr","of the Forest","Ranger","Strider","the Mountain","the Fierce","the Quick","Eagle-eye","Bear's-Strength","Bearslayer","Dragonslayer","the Proud","the Watcher","Returned","the Survivor","Bowmaker","Fletcher","Flint","Knapper","Smith","Doe"]
 
+##Begin Knat chat GPT stuff
 # Rogue Names
 
 Rogue.firstNameList = {"Male": ["Talon", "Felix", "Milo", "Shadow", "Dagger", "Whisper", "Rat","Deceit", "Cunning", "Mystery", "Rogue", "Shade", "Noctis", "Garrett", "Viper", "Slade"],
