@@ -19,7 +19,7 @@ class miniSpell:
 spells={}
 loader=[]
 
-def setCantrips(number, character):
+def setCantrips(number, character,ckey=''):
     dict={5:2,11:3,17:4}
     for i in range(1,21):
         if i<5:
@@ -110,6 +110,7 @@ and can end them as an action.''',['Artificer','Bard','Sorcerer','Warlock','Wiza
     rayOfFrost=Spell("Ray of Frost",0,'''You deal '''+str(dict[character.level])+'''d8 damage to a target in 60' via ranged spell attack,
 and reduce their speed by 10' until the start of your next turn.''',['Artificer','Bard','Sorerer','Wizard'])
     resistance=Spell("Resistance",0,"For Concentration up to 1 minute the touched target can add 1d4 to a saving throw after rolling if they so choose, once.",['Artificer','Cleric','Druid','Ranger'])
+    sacredFlame=Spell("Sacred Flame",0,"Target within 60' must Dex save or take "+str(dict[character.level])+"d8 radiant damage.\nThis spell does not need line of effect and ignores all cover.",['Cleric'])
     shockingGrasp=Spell("Shocking Grasp",0,'''Make a melee spell attack, with advantage if the target is wearing metal armor.
 If you hit, deal '''+str(dict[character.level])+'''d8 lightning damage and the target loses its reaction.''',['Artificer','Bard','Sorcerer','Wizard'])
     spareTheDying=Spell("Spare the Dying",0,"You succeed on a Wis check to stabilize a target you touch.",['Artificer','Cleric','Ranger'])
@@ -142,6 +143,7 @@ If you hit, deal '''+str(dict[character.level])+'''d8 lightning damage and the t
     roller.append(prestidigitation)
     roller.append(rayOfFrost)
     roller.append(resistance)
+    roller.append(sacredFlame)
     roller.append(shockingGrasp)
     roller.append(spareTheDying)
     roller.append(swordBurst)
@@ -156,17 +158,46 @@ If you hit, deal '''+str(dict[character.level])+'''d8 lightning damage and the t
         spells[i.name]=i
         cantrips[i.name]=i
 
-    present=[]
-    for i in character.spells:
-        if character.spells[i].spell.level==0:
-            character.spells[i].spell=cantrips[i]
-            present.append(i)
-    while len(present)<number:
-        j=random.choice(list(cantrips))
-        if (j not in present) and (character.classes[0].name in cantrips[j].learnedBy):
-            character.addSpell(cantrips[j])
-            present.append(j)
+    if ckey!='':
         
+        if ckey=='a':
+            cclass=classStuff.Artificer
+        if ckey=='b':
+            cclass=classStuff.Bard
+        if ckey=='w':
+            cclass=classStuff.Wizard
+        if ckey=='W':
+            cclass=classStuff.Warlock
+            
+        present=[]
+        for i in character.spells:
+            if character.spells[i].spell.level==0:
+                character.spells[i].spell=cantrips[i]
+                present.append(i)
+
+        code=character.saveString
+        i=0
+        done=False
+        while not done:
+            if code[0]==ckey:  #e.g. 'a' for Artificer
+                value=int(code[4])
+                stringKey=i+4
+                done=True
+            else:
+                i+=1
+                code=code[1:]
+                    
+        while value<number:
+            j=random.choice(list(cantrips))
+            if (j not in present) and (cclass.name in cantrips[j].learnedBy):
+                character.addSpell(cantrips[j])
+                present.append(j)
+                value+=1
+        if value>=10:
+            raise "We were wrong.  We thought there would never be more than 6, let alone 9.  10 Cantrips.  I'm sorry :("
+        character.saveString=character.saveString[:stringKey]+str(value)+character.saveString[stringKey+1:]
+                
+            
 
 
 absorbElements=Spell("Absorb Elements",1,'''You can use your reaction to gain resistance to elemental damage you are about to take, and deal 1d6 extra damage of the triggering type on your first hit afterwards.''',['Artificer','Druid','Ranger','Sorcerer','Wizard'])
@@ -479,7 +510,7 @@ def makeSpellcaster(character,cclass):
                 up='0'+str(up)
             else:
                 up=str(up)
-            character.saveString+='a'+up
+            character.saveString+='a'+up+'.0'
 
         code=character.saveString
         i=0
@@ -547,7 +578,7 @@ def makeSpellcaster(character,cclass):
                 up='0'+str(up)
             else:
                 up=str(up)
-            character.saveString+='b'+up
+            character.saveString+='b'+up+'.0'
 
         code=character.saveString
         i=0

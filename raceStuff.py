@@ -26,7 +26,7 @@ class Race:
                 bbreak=1
         if not bbreak:
             self.properties.append(property.name,property)
-    def makeRace(self,character):
+    def makeRace(self,character,new=True):
         if self.name=="Human":
             global humanSubraces
             sub=copy.copy(self)
@@ -40,11 +40,14 @@ class Race:
             character.race=sub
 
         if character.race.name=="Lesser Human":
-            for i in character.stats:
-                character.stats[i]+=1
+            if new:
+                for i in character.stats:
+                    character.stats[i]+=1
         if character.race.name=="High Elf":
-            makeElf(character)
-            makeBaseHighElf(character)
+            makeElf(character,new)
+            makeBaseHighElf(character,new)
+        if character.race.name=="Astral Elf":
+            makeAstralElf(character,new)
             
             
 
@@ -176,24 +179,102 @@ for _ in range(5):
 
 ###end Knat stuff
 
-def makeElf(character):
-    character.stats['dex']+=2
-    darkV=basics.Property("Darkvision",'''You can see in dim light within 60' as if it were bright light, and in darkness as if it were dim light.
-                          You can't discern color in darkness.''')
-    character.addProperty(darkV)
-    sk1='Perception'
-    while sk1 in character.proficiencies:
-        sk1=random.choice(basics.skillList)
-    feyAnc=basics.Property("Fey Ancestry","You have advantage on saving throws against being charmed, and magic can't put you to sleep")
-    character.addProperty(feyAnc)
-    trance=basics.Property("Fey Ancestry","You only need to meditate for 4 hours, rather than sleep and spend 8 hours, to long rest.")
-    character.addProperty(trance)
-    for lang in ['Elvish','Common']:
-        while lang in character.languages:
-            lang=random.choice(basics.languageList)
-        character.languages.append(lang)
+def makeElf(character,new=True):
+    if new:
+        character.stats['dex']+=2
+        darkV=basics.Property("Darkvision",'''You can see in dim light within 60' as if it were bright light, and in darkness as if it were dim light.
+                              You can't discern color in darkness.''')
+        character.addProperty(darkV)
+        sk1='Perception'
+        while sk1 in character.proficiencies:
+            sk1=random.choice(basics.skillList)
+        feyAnc=basics.Property("Fey Ancestry","You have advantage on saving throws against being charmed, and magic can't put you to sleep")
+        character.addProperty(feyAnc)
+        trance=basics.Property("Trance","You only need to meditate for 4 hours, rather than sleep and spend 8 hours, to long rest.")
+        character.addProperty(trance)
+        for lang in ['Elvish','Common']:
+            while lang in character.languages:
+                lang=random.choice(basics.languageList)
+            character.languages.append(lang)
+    else:
+        raise "how??"
+def makeAstralElf(character,new=True):
+    if new:
+        x=random.choice(list(character.stats.keys()))
+        y=x
+        z=y
+        while y==x:
+            y=random.choice(list(character.stats.keys()))
+        while z==y or z==x:
+            z=random.choice(list(character.stats.keys()))
+        coin=random.choice([True,False])
+        if coin:
+            character.stats[x]+=2
+            character.stats[y]+=1
+        else:
+            character.stats[x]+=1
+            character.stats[y]+=1
+            character.stats[z]+=1
+            
+        save=copy.copy(character.classes)
+        i=character.stats['int']
+        w=character.stats['wis']
+        c=character.stats['cha']
+
+        if i>c and i>w:
+            character.classes=[classStuff.Wizard]
+        elif c>i and c>w:
+            character.classes=[classStuff.Bard]
+        elif w>i and w>c:
+            character.classes=[classStuff.Cleric]
+        elif i>=w:
+            character.classes=[classStuff.Wizard]
+        else:
+            character.classes=[classStuff.Cleric]
+        
+        spells.setCantrips(0,character)
+        x=random.choice(['Dancing Lights','Light','Sacred Flame'])
+        y=spells.spells[x]
+        character.addSpell(y)
+        
+        sk1='Perception'
+        while sk1 in character.proficiencies:
+            sk1=random.choice(basics.skillList)
+        character.proficiencies.append(sk1)
+        while sk1 in character.proficiencies:
+            sk1=random.choice(basics.skillList)
+        character.proficiencies.append(sk1)
+
+        sk2=random.choice(basics.toolList)
+        while sk2 in character.proficiencies:
+            sk2=random.choice(basics.toolList)
+        character.proficiencies.append(sk2)
+        trance=basics.Property("Astral Trance",'''You only need to meditate for 4 hours, rather than sleep and spend 8 hours, to long rest.
+Your '''+sk1+''' and '''+sk2+''' proficiencies are special.
+You can swap them out each long rest for any other option.
+The tool proficiency can be swapped for a weapon proficiency if you insist.''')
     
-def makeBaseHighElf(character):
+        for lang in ['Common','Common']:
+            while lang in character.languages:
+                lang=random.choice(basics.languageList)
+            character.languages.append(lang)
+    else:
+        trance=basics.Property("Astral Trance",'''You only need to meditate for 4 hours, rather than sleep and spend 8 hours, to long rest.
+One each of your skill and tool proficiencies are special.
+You can swap out those skill and tool proficiencies each long rest for any other option.
+The tool proficiency can be swapped for a weapon proficiency if you insist.''')
+    
+    darkV=basics.Property("Darkvision",'''You can see in dim light within 60' as if it were bright light, and in darkness as if it were dim light.
+You can't discern color in darkness.''')
+    character.addProperty(darkV)
+    feyAnc=basics.Property("Fey Ancestry","You have advantage on saving throws against being charmed")
+    character.addProperty(feyAnc)
+    character.addProperty(trance)
+    starStep=basics.Property("Starlight Step",'''As a bonus action, you can magically teleport up to 30 feet to an unoccupied space you can see.
+You can use this trait '''+str(character.proficiency)+''' times per long rest.''')
+    character.addProperty(starStep)
+    
+def makeBaseHighElf(character,new=True):
     character.race.name="High Elf"
     character.stats['int']+=1
     
@@ -209,7 +290,7 @@ def makeBaseHighElf(character):
         sk1=random.choice(basics.languageList)
     character.languages.append(sk1)
     
-elfSubraces=['High Elf']
+elfSubraces=['Astral Elf','High Elf']
 humanSubraces=['Lesser Human']
 
 def raceLookup(nname):

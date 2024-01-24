@@ -502,7 +502,7 @@ Max 1 effect/object. Max '''+str(max(getMod(character.stats['int']),1))+" object
             character.addProperty(guns)
             character.addProperty(mTinker)
             start(character)
-            spells.setCantrips(2,character)
+            spells.setCantrips(2,character,'a')
         if level==2:
             start(character)
             table={}
@@ -817,7 +817,7 @@ A creature can have only one Bardic Inspiration die at a time.
 You can use this feature '''+str(max(basics.getMod(character.stats['cha']),1))+''' times per long rest.''')
             character.addProperty(bardicInspiration)
             start(character)
-            spells.setCantrips(2,character)
+            spells.setCantrips(2,character,'b')
         return character
                     
                 
@@ -838,6 +838,7 @@ Ranger=Class("Ranger","d10")
 Bard=Class("Bard","d8")
 Bard.spellStat='cha'
 Cleric=Class("Cleric","d8")
+Cleric.spellStat='wis'
 Paladin=Class("Paladin","d10")
 Sorcerer=Class("Sorcerer","d6")
 Warlock=Class("Warlock","d8")

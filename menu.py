@@ -67,6 +67,7 @@ def loadUp(text):
     for i in range(1,curfile.level+1):
         curfile=curfile.classes[0].featureGain(i,curfile)
     curfile.hp=curfile.classes[0].hp*(1+curfile.level)-2+curfile.level*getMod(curfile.stats["con"])
+    curfile.race.makeRace(curfile,False) # load race without regenerating everything and reapplying stat mods.
     for i in curfile.classes:
         curfile.refactor(i)
 
@@ -226,9 +227,14 @@ def parameterize():
             if 'r' in y:
                 z=input('''Choose a race:
 1) Human
+2) Elf
 
 ''')
-                r=raceStuff.Human
+                if z=='1':
+                    r=raceStuff.Human
+                if z=='2':
+                    r=raceStuff.Elf
+                
                 string['r']=r
             return string
 
