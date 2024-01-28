@@ -20,6 +20,9 @@ spells={}
 loader=[]
 
 def setCantrips(number, character,ckey=''):
+    spellSave=str(8+basics.getMod(character.stats[character.classes[0].spellStat])+character.proficiency)
+    
+    
     dict={5:2,11:3,17:4}
     for i in range(1,21):
         if i<5:
@@ -30,7 +33,9 @@ def setCantrips(number, character,ckey=''):
             dict[i]=3
         else:
             dict[i]=4
-    acidSplash=Spell("Acid Splash",0,'''You shoot acid up to 60'.  You can hit up to two adjacent creatures for '''+str(dict[character.level])+'d6 damage, Dex save negates',['Artificer','Sorcerer','Wizard'])
+
+    ##0
+    acidSplash=Spell("Acid Splash",0,'''You shoot acid up to 60'.  You can hit up to two adjacent creatures for '''+str(dict[character.level])+'d6 damage, DC '+spellSave+' Dex save negates',['Artificer','Sorcerer','Wizard'])
     bladeWard=Spell("Blade Ward",0,'''You gain resistance against bludgeoning, piercing, and slashing damage from weapon attacks until your next turn ends.''',['Bard','Sorcerer','Warlock','Wizard'])
     if character.level>4:
         text= "takes "+str(dict[character.level]-1)+"d8 extra thunder damage and "
@@ -38,7 +43,7 @@ def setCantrips(number, character,ckey=''):
         text=""
     boomingBlade=Spell("Booming Blade",0,"You make a melee weapon attack with range 5'. On hit target also "+text+ "takes "+str(dict[character.level])+"d8 thunder damage if they willingly move 5 feet or more before your next turn.",['Artificer','Sorcerer','Warlock','Wizard'])
     createBonfire=Spell("Create Bonfire",0,'''You can create a 5' cube bonfire lasting Concentration max 1 minute.
-It deals '''+str(dict[character.level])+'''d8 fire damage dex negates against those in the space, entering the space, or ending a turn there.
+It deals '''+str(dict[character.level])+'''d8 fire damage Dex save DC '''+spellSave+''' negates against those in the space, entering the space, or ending a turn there.
 It lights unattended flamable stuff on fire''',['Artificer','Druid','Sorcerer','Warlock','Wizard'])
     dancingLights=Spell("Dancing Lights",0,'''You create either 4 small lights or 1 big one at points within 120' and each within 20' of another point.
 You choose the form for each light from torch, lantern, or orb and they float.
@@ -52,7 +57,7 @@ If it is an unintended flamable object and you hit it, it ignites''',['Artificer
 For Concentration max 1 minute, you have advantage on all Charisma checks directed at one creature of your choice that isn't hostile toward you.
 When the spell ends, the creature is magically compelled to realize that you used magic to influence its mood and magically becomes hostile toward you (no save).
 A creature prone to violence might attack you, while another creature might seek retribution in other ways (at the DM's discretion).''',['Bard','Sorcerer','Warlock','Wizard'])
-    frostBite=Spell("Frostbite",0,'''target within 60' must make Con save or take '''+str(dict[character.level])+'''d6 cold damage and have disadvantage on their first attack if any next turn''',['Artificer','Druid','Sorcerer','Warlock','Wizard'])
+    frostBite=Spell("Frostbite",0,'''target within 60' must Con save vs '''+spellSave+''' or take '''+str(dict[character.level])+'''d6 cold damage and have disadvantage on their first attack if any next turn''',['Artificer','Druid','Sorcerer','Warlock','Wizard'])
     if character.level>4:
         text1= str(dict[character.level]-1)+"d8 extra fire damage and "
         text2= str(dict[character.level]-1)+"d8+"
@@ -63,8 +68,8 @@ A creature prone to violence might attack you, while another creature might seek
     guidance=Spell("Guidance",0,'''A character you touch recieves +1d4 to its next ability check within Concentration up to 1 min''',['Artificer','Cleric','Druid','Ranger'])
     light=Spell("Light",0,'''Touched object emits bright light 20' and dim light 20' past that for 1 hour.
 Your choice of color. You can end the spell by recasting it or as an action.
-Object attenders if any may Dex save to negate''',['Artificer','Bard','Cleric','Sorcerer','Wizard'])
-    lightningLure=Spell("Lightning Lure",0,"You whip a visible target in 15' with lightning, pulling it adjacent to you on a failed Str save and dealing "+str(dict[character.level])+"d8 lightning damage if you did",['Artificer','Sorcerer','Warlock','Wizard'])
+Object attenders if any may Dex save vs '''+spellSave+''' to negate''',['Artificer','Bard','Cleric','Sorcerer','Wizard'])
+    lightningLure=Spell("Lightning Lure",0,"You whip a visible target in 15' with lightning, pulling it adjacent to you on a failed DC "+spellSave+" Str save and dealing "+str(dict[character.level])+"d8 lightning damage if you did",['Artificer','Sorcerer','Warlock','Wizard'])
     mageHand=Spell("Mage Hand",0,'''You create a glowing hand that you control within 30'.
 It takes your action to use, and has 30' flying movement and an action each time you use it.
 It lasts 1 minute or until you make another hand or dismiss it as an action.
@@ -81,7 +86,7 @@ The spell doesn't even need a line, and can twist around corners or through micr
 Magical silence blocks the spell if it can't weasel around it.
 You have to target a specific recipient and a direction.
 If you are wrong about the direction or the recipient is more than 120' from you, the spell fails''',['Artificer','Bard','Sorcerer','Wizard'])
-    mindSliver=Spell("Mind Sliver",0,'''Target within 60' must Int save or take '''+str(dict[character.level])+'''d6 psychic damage, and the first time it makes a saving throw before the end of your next turn,
+    mindSliver=Spell("Mind Sliver",0,'''Target within 60' must Int save vs DC '''+spellSave+''' or take '''+str(dict[character.level])+'''d6 psychic damage, and the first time it makes a saving throw before the end of your next turn,
 it gets -1d4.''',['Bard','Sorcerer','Warlock','Wizard'])
     minorIllusion=Spell("Minor Illusion",0,'''You create a sound or an image within range 30' that lasts for 1 minute.
 The illusion also ends if you dismiss it as an action or cast this spell again.
@@ -94,9 +99,9 @@ If you create an image it must be of an object or objects—such as a chair, mud
 The image can't create sound, light, smell, or any other sensory effect.
 Physical interaction with the image reveals it to be an illusion, because things can pass through it.
 
-If a creature uses its action to examine the sound or image, the creature can determine that it is an illusion with a successful Intelligence (Investigation) check against the usual save DC.
+If a creature uses its action to examine the sound or image, the creature can determine that it is an illusion with a successful DC '''+spellSave+''' Intelligence (Investigation) check.
 If a creature discerns the illusion for what it is, the illusion becomes faint to the creature.''',['Bard','Sorcerer,Warlock','Wizard'])
-    poisonSpray=Spell("Poison Spray",0,"You deal "+str(dict[character.level])+"d12 damage to a target within 10', con save negates.",['Artificer','Bard','Druid','Sorcerer','Warlock','Wizard'])
+    poisonSpray=Spell("Poison Spray",0,"You deal "+str(dict[character.level])+"d12 damage to a target within 10', DC "+spellSave+" Con save negates.",['Artificer','Bard','Druid','Sorcerer','Warlock','Wizard'])
     prestidigitation=Spell("Prestidigitation",0,'''You can do any of the following at 10' range:
 - create an instantaneous, harmless sensory effect, such as a shower of sparks, a puff of wind, faint musical notes, or an odd odor.
 - instantaneously light or snuff out a candle, a torch, or a small campfire
@@ -110,15 +115,15 @@ and can end them as an action.''',['Artificer','Bard','Sorcerer','Warlock','Wiza
     rayOfFrost=Spell("Ray of Frost",0,'''You deal '''+str(dict[character.level])+'''d8 damage to a target in 60' via ranged spell attack,
 and reduce their speed by 10' until the start of your next turn.''',['Artificer','Bard','Sorerer','Wizard'])
     resistance=Spell("Resistance",0,"For Concentration up to 1 minute the touched target can add 1d4 to a saving throw after rolling if they so choose, once.",['Artificer','Cleric','Druid','Ranger'])
-    sacredFlame=Spell("Sacred Flame",0,"Target within 60' must Dex save or take "+str(dict[character.level])+"d8 radiant damage.\nThis spell does not need line of effect and ignores all cover.",['Cleric'])
+    sacredFlame=Spell("Sacred Flame",0,"Target within 60' must Dex save vs DC "+spellSave+" or take "+str(dict[character.level])+"d8 radiant damage.\nThis spell does not need line of effect and ignores all cover.",['Cleric'])
     shockingGrasp=Spell("Shocking Grasp",0,'''Make a melee spell attack, with advantage if the target is wearing metal armor.
 If you hit, deal '''+str(dict[character.level])+'''d8 lightning damage and the target loses its reaction.''',['Artificer','Bard','Sorcerer','Wizard'])
     spareTheDying=Spell("Spare the Dying",0,"You succeed on a Wis check to stabilize a target you touch.",['Artificer','Cleric','Ranger'])
-    swordBurst=Spell("Sword Burst",0,"Everyone next to you must make a Dex save or take "+str(dict[character.level])+"d6 force damage.", ['Artificer','Sorcerer','Warlock','Wizard'])
+    swordBurst=Spell("Sword Burst",0,"Everyone next to you must make a DC "+spellSave+" Dex save or take "+str(dict[character.level])+"d6 force damage.", ['Artificer','Sorcerer','Warlock','Wizard'])
     thornWhip=Spell("Thorn Whip",0,"Make a melee spell attack with range 30'.  You deal "+str(dict[character.level])+"d6 piercing damage on a hit and pull a Large or smaller target up to 10' towards you",['Artificer','Druid','Ranger'])
-    thunderClap=Spell("Thunderclap",0,"Everyone next to you must make a Con save or take "+str(dict[character.level])+"d6 thunder damage. Also, you make a loud noise.", ['Artificer','Bard','Druid','Sorcerer','Warlock','Wizard'])
+    thunderClap=Spell("Thunderclap",0,"Everyone next to you must make a DC "+spellSave+" Con save or take "+str(dict[character.level])+"d6 thunder damage. Also, you make a loud noise.", ['Artificer','Bard','Druid','Sorcerer','Warlock','Wizard'])
     trueStrike=Spell("True Strike",0,'''You have advantage on your first attack roll next turn against a specific target you choose within 30'. This spell requires Concentration.''',['Bard','Sorcerer','Warlock','Wizard'])
-    viciousMockery=Spell("Vicious Mockery",0,'''A target within 60' that can hear you must succeed on a Wis save or take'''+str(dict[character.level])+'''d4 psychic damage and have disadvantage on the next attack roll it makes before the end of its next turn.''',['Bard'])
+    viciousMockery=Spell("Vicious Mockery",0,'''A target within 60' that can hear you must succeed on a DC '''+spellSave+''' Wis save or take'''+str(dict[character.level])+'''d4 psychic damage and have disadvantage on the next attack roll it makes before the end of its next turn.''',['Bard'])
 
     roller=[]
     roller.append(acidSplash)
@@ -199,7 +204,8 @@ If you hit, deal '''+str(dict[character.level])+'''d8 lightning damage and the t
                 
             
 
-
+##1
+        
 absorbElements=Spell("Absorb Elements",1,'''You can use your reaction to gain resistance to elemental damage you are about to take, and deal 1d6 extra damage of the triggering type on your first hit afterwards.''',['Artificer','Druid','Ranger','Sorcerer','Wizard'])
 alarm=Spell("Alarm",1,'''You can take a minute to alarm a door, a window, or an area that is no larger than a 20-foot cube.
 An alarm triggers whenever a creature not authorized during casting touches or enters the warded area for 8 hours.
@@ -349,11 +355,10 @@ Once you give the command, the servant performs the task to the best of its abil
 If you command the servant to perform a task that would move it more than 60 feet away from you, the spell ends.''',['Bard','Warlock','Wizard'])
                    
                    
-
+##2
 beastSense=Spell("Beast Sense",2,'''For concentration max 1 hour, you can see and hear through a willing beast
 you touch during casting, using its senses rather than your own.''',['Druid','Ranger'])
-
-
+mistyStep=Spell("Misty Step",2,'''As a bonus action, teleport up to 30 feet to an unoccupied space that you can see.''',['Bard','Sorcerer','Warlock','Wizard'])
 
 loader.append(alarm)
 loader.append(animalFriendship)
@@ -402,6 +407,7 @@ loader.append(unearthlyChorus)
 loader.append(unseenServant)
 
 loader.append(beastSense)
+loader.append(mistyStep)
                    
 for i in loader:
     spells[i.name]=i
@@ -427,13 +433,13 @@ def learnSpell(character,known):
     mmin=99 #determine level
     ans=0
     for i in known:
-        if i!=0 and (len(known[i])<mmin or (len(known[i])==mmin and i>ans)):
+        if i!=0 and (len(known[i])<mmin or (len(known[i])==mmin and i>ans)) and not i>highest(character.classes[0],character.level): #needs adjustment for multiclassing
             mmin=len(known[i])
             ans=i
             
     j=[] #load spells
     for i in spells: 
-        if character.classes[0].name in spells[i].learnedBy and spells[i].level==ans: #will need adjustment for multiclassing, probably additional parameter to function
+        if (character.classes[0].name in spells[i].learnedBy or spells[i].name in character.spellExtensions) and spells[i].level==ans: #will need adjustment for multiclassing, probably additional parameter to function
             j.append(spells[i])
 
     for i in character.spells: #remove matches
@@ -442,9 +448,13 @@ def learnSpell(character,known):
                 j.remove(k)
             
     
-    
-    k=random.choice(j) #add spell
+    z=0                                                                                              
+    k=random.choice(j) #add spell, preferring specially allowed ones
+    while k.name not in character.spellExtensions and z<30 and character.spellExtensions!=[]:
+        k=random.choice(j)    
     character.addSpell(k)
+    if k.name in character.spellExtensions:
+        character.spellExtensions.remove(k)
 
 def highest(cclass,level):
     if cclass.name in ['Artificer']:
@@ -530,6 +540,8 @@ def makeSpellcaster(character,cclass):
         for i in range(0,highest(cclass,character.level)+1):
             lv[i]=[]
         for i in character.spells:
+            if character.spells[i].spell.level not in lv.keys():
+                lv[i.spell.level]=[]
             lv[character.spells[i].spell.level].append(i)
             
         while diff>0:
@@ -607,6 +619,8 @@ def makeSpellcaster(character,cclass):
         for i in range(0,highest(cclass,character.level)+1):
             lv[i]=[]
         for i in character.spells:
+            if character.spells[i].spell.level not in lv.keys():
+                lv[i.spell.level]=[]
             lv[character.spells[i].spell.level].append(i)
             
         while diff>0:

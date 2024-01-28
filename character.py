@@ -22,6 +22,7 @@ class Character:
         self.spellString=''
         self.languages=[]
         self.name=''
+        self.spellExtensions=[]
         pass
     
     def addProperty(self,nname,ttext='',vvalue=0,):

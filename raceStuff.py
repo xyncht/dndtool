@@ -48,9 +48,50 @@ class Race:
             makeBaseHighElf(character,new)
         if character.race.name=="Astral Elf":
             makeAstralElf(character,new)
-            
-            
-
+        if character.race.name=="Avariel":
+            makeElf(character,new)
+            makeAvariel(character,new)
+        if character.race.name=="Drow":
+            makeElf(character,new)
+            makeDrow(character,new)
+        if character.race.name=="Variant Eladrin":
+            makeElf(character,new)
+            makeUAEladrin(character,new)
+        if character.race.name=="Lesser Eladrin":
+            makeElf(character,new)
+            makeDMGEladrin(character,new)
+        if character.race.name=="Eladrin":
+            makeElf(character,new)
+            makeMTFEladrin(character,new)
+        if character.race.name=="Grugach":
+            makeElf(character,new)
+            makeGrugach(character,new)
+        if character.race.name=="Valenar Eladrin":
+            makeElf(character,new)
+            makeDMGEladrin(character,new)
+            makeValenar(character,new)
+        if character.race.name=="Aereni Eladrin":
+            makeElf(character,new)
+            makeDMGEladrin(character,new)
+            makeAereni(character,new)
+        if character.race.name=="Valenar High Elf":
+            makeElf(character,new)
+            makeBaseHighElf(character,new)
+            makeValenar(character,new)
+        if character.race.name=="Aereni High Elf":
+            makeElf(character,new)
+            makeBaseHighElf(character,new)
+            makeAereni(character,new)
+        if character.race.name in ['Wood Elf','Bishatar Elf','Tirahar Elf']:
+            makeElf(character,new)
+            makeWoodElf(character,new)
+        if character.race.name=="Vahadar Elf":
+            makeElf(character,new)
+            makeVahadar(character,new)
+        if character.race.name=="Mark of Shadow Elf":
+            makeElf(character,new)
+            makeMarkofShadow(character,new)
+        
 Human=Race("Human")
 Elf=Race("Elf")
 #Dwarf=Race("Dwarf")
@@ -92,88 +133,64 @@ def generate_elven_name():
     )
     return generated_name.capitalize()
 
-# Generate and print 5 longer elven names
-print("\n\n elven names ")
-for _ in range(5):
-    print(generate_elven_name())
-Elf.abilityMods={}
 
 Elf.firstNameList={"Male":generate_elven_name(), "Female":generate_elven_name()}
 Elf.lastNameList=[generate_elven_name()]
 
 
+##def generate_dwarven_name():
+##    prefixes = ["Bor", "Thrain", "Gim", "Durin", "Dwalin", "Bal", "Thor", "Gloin", "Oin", "Fili"]
+##    midfixes = ["in", "ar", "or", "ur", "un", "an", "ril", "din", "grim", "thor"]
+##    suffixes = ["rock", "beard", "forge", "stone", "hammer", "shield", "iron", "axe", "helm", "miner"]
+##
+##    generated_name = random.choice(prefixes) + random.choice(midfixes) + random.choice(suffixes)
+##    return generated_name.capitalize()
+##
+##
+##
+##def generate_gnomish_name():
+##    prefixes = ["Giz", "Blix", "Nim", "Fizz", "Zig", "Blip", "Tock", "Glim", "Diz", "Snip"]
+##    midfixes = ["ble", "plo", "tink", "glee", "wiz", "fiz", "kib", "snick", "noodle", "twizzle"]
+##    suffixes = ["gadget", "whistle", "widget", "noodle", "crank", "sprocket", "gizmo", "spark", "buckle", "spinner"]
+##
+##    generated_name = random.choice(prefixes) + random.choice(midfixes) + random.choice(suffixes)
+##    return generated_name.capitalize()
+##
+##
+##def generate_gnomish_name():
+##    prefixes = ["Gizmo", "Blixle", "Nimble", "Fizzle", "Zigzag", "Blipper", "Tockle", "Glimmer", "Dizzle", "Snicker"]
+##    midfixes = ["ble", "plo", "tink", "glee", "wiz", "fiz", "kib", "snick", "noodle", "twizzle"]
+##    suffixes = ["gadget", "whistle", "widget", "noodle", "crank", "sprocket", "gizmo", "spark", "buckle", "spinner"]
+##
+##    generated_name = random.choice(prefixes) + random.choice(midfixes) + random.choice(suffixes)
+##    return generated_name.capitalize()
+##
+##
+##    
+##
+##def generate_guttural_orcish_name():
+##    prefixes = ["Gruk", "Drek", "Gor", "Throk", "Mog", "Hak", "Kor", "Nar", "Gul", "Zar"]
+##    suffixes = ["Gr", "Keh", "Mog", "Th", "Rok", "Sk", "Gh", "Nar", "Zog", "Thr"]
+##
+##    generated_name = random.choice(prefixes) + random.choice(suffixes)
+##    return generated_name.capitalize()
+##
+##
+##
+##
+##def generate_halfling_name():
+##    prefixes = ["Bil", "Fro", "Sam", "Pip", "Mer", "Ro", "Pri", "Dai", "Tom", "Ru"]
+##    suffixes = ["bo", "odo", "m", "pin", "ie", "sey", "hill", "den", "bur", "der"]
+##    middle_names = ["Berry", "Leaf", "Meadow", "Sunflower", "Daisy", "Breeze", "Puddle", "Pebble", "Sparrow", "Tumble"]
+##
+##    first_name = random.choice(prefixes) + random.choice(suffixes)
+##    middle_name_1 = random.choice(middle_names)
+##    middle_name_2 = random.choice([name for name in middle_names if name != middle_name_1])
+##    middle_name_3 = random.choice([name for name in middle_names if name != middle_name_1 and name != middle_name_2])
+##    last_name = random.choice(prefixes) + random.choice(suffixes)+ random.choice(suffixes)
+##
+##    return f"{first_name} {middle_name_1} {middle_name_2} {middle_name_3} {last_name}"
 
-def generate_dwarven_name():
-    prefixes = ["Bor", "Thrain", "Gim", "Durin", "Dwalin", "Bal", "Thor", "Gloin", "Oin", "Fili"]
-    midfixes = ["in", "ar", "or", "ur", "un", "an", "ril", "din", "grim", "thor"]
-    suffixes = ["rock", "beard", "forge", "stone", "hammer", "shield", "iron", "axe", "helm", "miner"]
-
-    generated_name = random.choice(prefixes) + random.choice(midfixes) + random.choice(suffixes)
-    return generated_name.capitalize()
-
-# Generate and print 5 dwarven names
-print("\n\n dwarf names ")
-for _ in range(5):
-    print(generate_dwarven_name())
-    
-
-def generate_gnomish_name():
-    prefixes = ["Giz", "Blix", "Nim", "Fizz", "Zig", "Blip", "Tock", "Glim", "Diz", "Snip"]
-    midfixes = ["ble", "plo", "tink", "glee", "wiz", "fiz", "kib", "snick", "noodle", "twizzle"]
-    suffixes = ["gadget", "whistle", "widget", "noodle", "crank", "sprocket", "gizmo", "spark", "buckle", "spinner"]
-
-    generated_name = random.choice(prefixes) + random.choice(midfixes) + random.choice(suffixes)
-    return generated_name.capitalize()
-
-# Generate and print 5 gnomish names
-print("\n\n Gnome names ")
-for _ in range(5):
-    print(generate_gnomish_name())
-
-def generate_gnomish_name():
-    prefixes = ["Gizmo", "Blixle", "Nimble", "Fizzle", "Zigzag", "Blipper", "Tockle", "Glimmer", "Dizzle", "Snicker"]
-    midfixes = ["ble", "plo", "tink", "glee", "wiz", "fiz", "kib", "snick", "noodle", "twizzle"]
-    suffixes = ["gadget", "whistle", "widget", "noodle", "crank", "sprocket", "gizmo", "spark", "buckle", "spinner"]
-
-    generated_name = random.choice(prefixes) + random.choice(midfixes) + random.choice(suffixes)
-    return generated_name.capitalize()
-
-# Generate and print 10 longer gnomish names
-print("\n\n Gnome names #2")
-for _ in range(5):
-    print(generate_gnomish_name())
-    
-
-def generate_guttural_orcish_name():
-    prefixes = ["Gruk", "Drek", "Gor", "Throk", "Mog", "Hak", "Kor", "Nar", "Gul", "Zar"]
-    suffixes = ["Gr", "Keh", "Mog", "Th", "Rok", "Sk", "Gh", "Nar", "Zog", "Thr"]
-
-    generated_name = random.choice(prefixes) + random.choice(suffixes)
-    return generated_name.capitalize()
-
-# Generate and print 5 orcish names with guttural suffixes
-print("\n\n Ork names ")
-for _ in range(5):
-    print(generate_guttural_orcish_name())
-
-
-def generate_halfling_name():
-    prefixes = ["Bil", "Fro", "Sam", "Pip", "Mer", "Ro", "Pri", "Dai", "Tom", "Ru"]
-    suffixes = ["bo", "odo", "m", "pin", "ie", "sey", "hill", "den", "bur", "der"]
-    middle_names = ["Berry", "Leaf", "Meadow", "Sunflower", "Daisy", "Breeze", "Puddle", "Pebble", "Sparrow", "Tumble"]
-
-    first_name = random.choice(prefixes) + random.choice(suffixes)
-    middle_name_1 = random.choice(middle_names)
-    middle_name_2 = random.choice([name for name in middle_names if name != middle_name_1])
-    middle_name_3 = random.choice([name for name in middle_names if name != middle_name_1 and name != middle_name_2])
-    last_name = random.choice(prefixes) + random.choice(suffixes)+ random.choice(suffixes)
-
-    return f"{first_name} {middle_name_1} {middle_name_2} {middle_name_3} {last_name}"
-
-# Generate and print 5 halfling names with three distinct middle names
-print("\n\n Halfling names ")
-for _ in range(5):
-    print(generate_halfling_name())
 
 
 
@@ -182,22 +199,22 @@ for _ in range(5):
 def makeElf(character,new=True):
     if new:
         character.stats['dex']+=2
-        darkV=basics.Property("Darkvision",'''You can see in dim light within 60' as if it were bright light, and in darkness as if it were dim light.
-                              You can't discern color in darkness.''')
-        character.addProperty(darkV)
+        
         sk1='Perception'
         while sk1 in character.proficiencies:
             sk1=random.choice(basics.skillList)
-        feyAnc=basics.Property("Fey Ancestry","You have advantage on saving throws against being charmed, and magic can't put you to sleep")
-        character.addProperty(feyAnc)
-        trance=basics.Property("Trance","You only need to meditate for 4 hours, rather than sleep and spend 8 hours, to long rest.")
-        character.addProperty(trance)
         for lang in ['Elvish','Common']:
             while lang in character.languages:
                 lang=random.choice(basics.languageList)
             character.languages.append(lang)
-    else:
-        raise "how??"
+
+    darkV=basics.Property("Darkvision",'''You can see in dim light within 60' as if it were bright light, and in darkness as if it were dim light.
+                          You can't discern color in darkness.''')
+    character.addProperty(darkV)
+    feyAnc=basics.Property("Fey Ancestry","You have advantage on saving throws against being charmed, and magic can't put you to sleep")
+    character.addProperty(feyAnc)
+    trance=basics.Property("Trance","You only need to meditate for 4 hours, rather than sleep and spend 8 hours, to long rest.")
+    character.addProperty(trance)
 def makeAstralElf(character,new=True):
     if new:
         x=random.choice(list(character.stats.keys()))
@@ -236,7 +253,8 @@ def makeAstralElf(character,new=True):
         x=random.choice(['Dancing Lights','Light','Sacred Flame'])
         y=spells.spells[x]
         character.addSpell(y)
-        
+
+        character.classes=save
         sk1='Perception'
         while sk1 in character.proficiencies:
             sk1=random.choice(basics.skillList)
@@ -275,22 +293,222 @@ You can use this trait '''+str(character.proficiency)+''' times per long rest.''
     character.addProperty(starStep)
     
 def makeBaseHighElf(character,new=True):
-    character.race.name="High Elf"
-    character.stats['int']+=1
+    if new:
+        character.stats['int']+=1
     
+        save=copy.copy(character.classes)
+        character.classes=[classStuff.Wizard]
+        spells.setCantrips(1,character)
+        character.classes=save
+    
+        character.proficiencies.extend(['Longsword','Shortsword','Shortbow','Longbow'])
+
+        sk1='Elvish'
+        while sk1 in character.languages:
+            sk1=random.choice(basics.languageList)
+        character.languages.append(sk1)
+
+def makeAvariel(character,new=True):
+    flight=basics.Property("Flight","You have a fly speed of 30'.  You can't fly in medium or heavy armor.")
+    character.addProperty(flight)
+    if new:
+        sk1='Auran'
+        while sk1 in character.languages:
+            sk1=random.choice(basics.languageList)
+        character.languages.append(sk1)
+
+def makeDrow(character,new=True):
+    if new:
+        character.stats['cha']+=1
+        spells.setCantrips(0,character)
+        character.addSpell(spells.spells["Dancing Lights"])
+        character.proficiencies.extend(['rapier','shortsword','hand crossbow'])
+    sdark=basics.Property("Darkvision",'''You can see in dim light within 120' as if it were bright light, and in darkness as if it were dim light.
+                          You can't discern color in darkness.''',1)
+    character.addProperty(sdark)
+    sunsens=basics.Property("Sunlight Sensitivity",'''You have disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight when you,
+the target of your attack, or whatever you are trying to perceive is in direct sunlight.''')
+    character.addProperty(sunsens)
     save=copy.copy(character.classes)
-    character.classes=[classStuff.Wizard]
-    spells.setCantrips(1,character)
+    character.classes=[classStuff.Bard]
+    if character.level>=3 and "Faerie Fire" not in character.spells.keys():
+        character.addSpell(spells.spells["Faerie Fire"],"1 free/long rest")
+    if character.level>=5 and "Darkness" not in character.spells.keys():
+        character.addSpells(spells.spells["Darkness"],"1 free/long rest")
     character.classes=save
 
-    character.proficiencies.extend(['Longsword','Shortsword','Shortbow','Longbow'])
+def makeUAEladrin(character,new=True):
+    if new:
+        r=random.choice([1,0])
+        if r:
+            character.stats['int']+=1
+        else:
+            character.stats['cha']+=1
+        season=random.choice(['s','f','w',''])
+        cantrip={'s':"Fire Bolt",'f':"Friends",'w':"Chill Touch",'':'Minor Illusion'}
+        while cantrip[season] in character.spells.keys():
+            season=random.choice(['s','f','w',''])
+        character.saveString+=season
 
-    sk1='Elvish'
-    while sk1 in character.languages:
-        sk1=random.choice(basics.languageList)
-    character.languages.append(sk1)
+    feyStep=basics.Property("Fey Step","As a bonus action 1/short rest you can magically teleport up to 30' to an empty space you can see.")
+
+    cantrip={'s':"Fire Bolt",'f':"Friends",'w':"Chill Touch",'':'Minor Illusion'}
+    if 's' in character.saveString:
+        season='s'
+    elif 'f' in character.saveString:
+        season='f'
+    elif 'w' in character.saveString:
+        season='w'
+    else:
+        season=''
+    if character.stats['int']<character.stats['cha']:
+        blurb='cha, which is '+str(character.stats['cha'])
+        swap=[classStuff.Bard]
+    else:
+        blurb='int, which is '+str(character.stats['int'])
+        swap=[classStuff.Wizard]
     
-elfSubraces=['Astral Elf','High Elf']
+    
+    shiftingSeasons=basics.Property("Shifting Seasons",'''You can change your season, altering your personality and swapping a cantrip at the end of each short rest.
+Your current cantrip is '''+cantrip[season]+'''.
+Your spellstat for this is '''+blurb+".")
+    if cantrip[season] not in character.spells:
+        save=copy.copy(character.classes)
+        character.classes=swap
+        setCantrips(0,character)
+        character.addSpell(spells.spells[cantrip[season]],"seasonal",-1)
+    character.addProperty(feyStep)
+    character.addProperty(shiftingSeasons)
+
+def makeDMGEladrin(character,new=True):
+    if new:
+        character.stats['int']+=1
+        season=random.choice(['s','f','w',''])
+        character.saveString+=season
+        character.addSpell(spells.spells["Misty Step"],"free 1/short rest",1)
+        character.proficiencies.extend(['Longsword','Shortsword','Shortbow','Longbow'])
+def makeMTFEladrin(character,new=True):
+    if new:
+        character.stats['int']+=1
+        season=random.choice(['s','f','w',''])
+        character.saveString+=season
+    if 's' in character.saveString:
+        season='s'
+    elif 'f' in character.saveString:
+        season='f'
+    elif 'w' in character.saveString:
+        season='w'
+    else:
+        season=''
+    spec={'s':'','w':'','f':'','':''}
+    if character.level>=3:
+        spec['s']= '''\nThen each adjecent creature you choose takes '''+str(max(basics.getMod(character.stats['cha']),1))+''' fire damage.'''
+        spec['']='''\nYou can use this ability to instead teleport a willing touched creature.'''
+        spec['w']='''\nThen one formerly seen, formerly adjacent creature of your choice Wis saves v.s. DC '''+str(8+character.proficiency+basics.getMod(character.stats['cha']))+''' or be frightened of you until the end of your next turn.'''
+        spec['f']='''\nThen up to two creatures you choose must DC '''+str(8+character.proficiency+basics.getMod(character.stats['cha']))+''' Wis save or be charmed by you for 1 minute or until you or your allies damage it'''
+    feyStep=basics.Property("Fey Step","As a bonus action 1/short rest you can magically teleport up to 30' to an empty space you can see."+spec[season])
+
+    character.addProperty(feyStep)
+    if character.level>=3:
+        blurb='and Fey Step effect '
+    else:
+        blurb=''
+    shiftingSeasons=basics.Property("Shifting Seasons",'''You can change your season, altering your personality '''+blurb+'''at the end of each long rest.''')
+    
+def makeGrugach(character,new):
+    if new:
+        character.stats['str']+=1
+    
+        save=copy.copy(character.classes)
+        ssave=character.saveString
+        character.classes=[classStuff.Druid]
+        spells.setCantrips(1,character)
+        character.saveString=ssave
+        character.classes=save
+    
+        character.proficiencies.extend(['Spear','Net','Shortbow','Longbow'])
+        for i in character.languages:
+            if i=='Common':
+                q=random.choice(basics.languageList)
+                while q in character.languages:
+                    q=random.choice(basics.languageList)
+                t=character.languages.index(i)
+        character.languages[t]=q
+            
+        sk1='Sylvan'
+        while sk1 in character.languages:
+            sk1=random.choice(basics.languageList)
+        character.languages.append(sk1)
+        
+def makeAereni(character,new):
+    if new:
+        for i in character.proficiencies[:]: ##slice creates temp copy so removal is safe
+            if i in ['Longbow','Shortbow','Longsword','Shortsword']:
+                character.proficiencies.remove(i)
+        roll=random.choice([1,0])
+        if roll:
+            sk1=random.choice(basics.skillList)
+            while sk1 in character.proficiencies:
+                sk1=random.choice(basics.skillList)
+        else:
+            sk1=random.choice(basics.trueToolsList)
+            while sk1 in character.proficiencies:
+                sk1=random.choice(basics.trueToolsList)
+        character.expertises.append(sk1)
+def makeValenar(character,new):
+    if new:
+        for i in character.proficiencies[:]:
+            if i in ['Shortsword','Longsword']:
+                character.proficiencies.remove(i)
+        character.proficiencies.extend(['Scimitar','Double Scimitar'])
+def makeVahadar(character,new):
+    if new:
+        character.stats['wis']+=1
+    
+        save=copy.copy(character.classes)
+        character.classes=[classStuff.Druid]
+        spells.setCantrips(1,character)
+        character.classes=save
+    
+        character.proficiencies.extend(['Longsword','Shortsword','Shortbow','Longbow'])
+
+        sk1='Elvish'
+        while sk1 in character.languages:
+            sk1=random.choice(basics.languageList)
+        character.languages.append(sk1)
+def makeWoodElf(character,new):
+    if new:
+        character.stats['wis']+=1
+    maskWild=Property("Mask of the Wild",'''You can attempt to hide when lightly obscured, if the obstruction if from a natural source.''')
+    fleetFoot=Property("Fleet of Foot",'''Your base walking speed is 35'.''')
+    character.proficiencies.extend(['Longsword','Shortsword','Shortbow','Longbow'])
+    character.addProperty(maskWild)
+    character.addProperty(fleetFoot)
+def makeMarkofShadow(character,new):
+    if new:
+        character.stats['cha']+=1
+        save=copy.copy(character.classes)
+        character.classes=['Bard']
+        spells.setCantrips(0,character)
+        character.addSpell(spells.spells['Minor Illusion'])
+        character.classes=save
+        
+    for i in ["Disguise Self","Silent Image","Darkness","Pass Without Trace","Clairvoyance","Major Image","Greater Invisibility", "Hallucinatory Terrain","Mislead"]:
+        if i not in character.spellExtensions and i not in character.spells.keys():
+            character.spellExtensions.append(i)
+    if character.level>=3 and 'Invisibility' not in character.spells.keys():
+        character.addSpell(spells.spells['Invisibility'])
+    cunningInt=Property("Cunning Intuition","+1d4 to Charisma (Performance) and Dexterity (Stealth) checks")
+    character.addProperty(cunningInt)
+    
+
+
+    
+        
+
+
+                   
+elfSubraces=['Astral Elf','High Elf','Avariel','Drow','Variant Eladrin','Lesser Eladrin','Eladrin','Grugach','Aereni High Elf','Aereni Eladrin','Valenar High Elf','Valenar Eladrin','Vahadar Elf','Bishatar Elf','Tirahar Elf','Mark of Shadow Elf']
 humanSubraces=['Lesser Human']
 
 def raceLookup(nname):

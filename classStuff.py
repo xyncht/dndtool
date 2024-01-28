@@ -834,6 +834,7 @@ Barbarian=Class("Barbarian","d12")
 Monk=Class("Monk","d8")
 Rogue=Class("Rogue","d8")
 Druid=Class("Druid","d8")
+Druid.spellStat='wis'
 Ranger=Class("Ranger","d10")
 Bard=Class("Bard","d8")
 Bard.spellStat='cha'
@@ -874,7 +875,11 @@ def classLookup(nname):
                 return [i]
         if nname in barbarianSubclasses:
             return classLookup("Barbarian")
+        if nname in artificerSubclasses:
+            return classLookup("Artificer")
         if nname in ["Evoker","Necromancer"]:
             return classLookup("Wizard")
+        else:
+            raise "!!! not in class Lookup"
     else:
         raise "D: D: not ready!!!"
